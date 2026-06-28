@@ -1,9 +1,9 @@
 <template>
-  <section id="tratamentos" class="processo">
+  <section id="beneficios" class="processo">
     <div class="folha folha-1"><Folhagem /></div>
     <div class="folha folha-2"><Folhagem /></div>
 
-    <div class="cabecalho">
+    <div class="cabecalho" v-revelar.filhos>
       <h2>O que esse processo pode <b>abrir pra você</b></h2>
       <p>
         A terapia não te entrega respostas prontas. É um espaço pra você se olhar
@@ -11,7 +11,7 @@
       </p>
     </div>
 
-    <div class="orbita">
+    <div class="orbita" v-revelar>
       <!-- linhas pontilhadas ligando o centro a cada item (só desktop) -->
       <svg class="conexoes" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
         <g stroke="#B89172" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round" fill="none">

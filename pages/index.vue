@@ -5,6 +5,15 @@
     <IndexSectionSituacao />
     <Onda corTopo="#FFFFFF" cor="var(--cor-fundo)" />
     <IndexSectionProcesso />
+    <Onda corTopo="var(--cor-fundo)" cor="#FFFFFF" />
+    <IndexSectionSobre />
+    <Onda corTopo="#FFFFFF" cor="var(--cor-fundo)" />
+    <IndexSectionComoFunciona />
+    <Onda corTopo="var(--cor-fundo)" cor="#FFFFFF" />
+    <IndexSectionFaq />
+    <Onda corTopo="#FFFFFF" cor="var(--cor-fundo)" />
+    <IndexSectionContato />
+    <Onda corTopo="var(--cor-fundo)" cor="var(--cor-marrom-escuro)" />
   </div>
 </template>
 

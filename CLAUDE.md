@@ -34,13 +34,19 @@ components/
   pages/
     index/SectionHero.vue   # -> <IndexSectionHero>
     index/SectionSituacao.vue # -> <IndexSectionSituacao>
+    index/SectionProcesso.vue # -> <IndexSectionProcesso>
+    index/SectionSobre.vue  # -> <IndexSectionSobre>
+    index/SectionComoFunciona.vue # -> <IndexSectionComoFunciona>
+    index/SectionFaq.vue    # -> <IndexSectionFaq> (accordion interativo)
+    index/SectionContato.vue # -> <IndexSectionContato> (CTA final: WhatsApp + Instagram)
 assets/css/
   variaveis.sass            # tokens (cores, fontes, escala de fonte) em :root
   fonts.sass                # @font-face Figtree (Pacifico vem do Google Fonts no app.vue)
   index.sass                # @use de todos os css base
 plugins/edusites-icons.js   # registra <SvgIcone> global
 public/images/              # logo.png (logo completa), jamilly-header.png
-public/imagens/             # jamilly.png (foto recortada do hero), logo-marca.png
+public/imagens/             # jamilly.png (hero), jamilly-sentada.png (Sobre mim),
+                            # ornamento-sobre.svg (galho divisor do "SOBRE MIM"), logo-marca.png
 stores/                     # Pinia
 ```
 
@@ -104,16 +110,68 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
 
 ## Status
 
-- **Pronto**: Nav (logo via `public/images/logo.png`), Hero, Onda (divisor U),
+- **Pronto**: Nav (logo via `public/images/logo.png`; **menu hamburger no mobile**
+  ≤1100px — overlay creme em tela cheia, ícone anima p/ "X", trava scroll do body,
+  `Teleport to="body"`; **nav flutuante no scroll** (desktop ≥1101px) — pill
+  marrom-escuro que desce ao rolar >500px, com nome em Pacifico + ícones sociais +
+  links + Agendar; no desktop o nav do topo vira `position: relative` (rola junto) e
+  o flutuante assume), Hero, Onda (divisor U),
   Seção "Se encontra nessa situação?" (3 cards + frase-ponte + CTA),
   Seção "O que esse processo pode abrir pra você" (`SectionProcesso.vue` — ilustração
   SVG da semente brotando no centro + 4 balões em órbita com linhas pontilhadas;
-  empilha no mobile).
-- Ordem na home (`index.vue`): Hero → Onda → Situacao → Onda → Processo.
-- **Próximas seções (Figma)**: "Sobre mim".
+  empilha no mobile),
+  Seção "Sobre mim" (`SectionSobre.vue` — 2 colunas: foto `jamilly-sentada.png` à
+  esquerda em moldura/porta-retrato + acento pêssego deslocado + selo glass "Escuta
+  sem julgamento"; à direita título "SOBRE MIM" com ornamento de galho (SVG inline) +
+  parágrafo + **assinatura em Pacifico "Jamilly Ferreira"**; empilha no mobile).
+  **Decisões:** fundo branco + moldura creme (Figma é creme, mas branco mantém a
+  alternância creme↔branco das ondas); **sem botão de CTA** (cliente pediu p/ remover —
+  o "Agendar" já aparece muitas vezes; a assinatura fecha a seção),
+  Seção "Como funciona o processo terapêutico?" (`SectionComoFunciona.vue` — baseada
+  em referência do cliente, adaptada: layout **espelhado** (texto+lista à esquerda,
+  foto à direita) p/ diferenciar da Sobre; kicker "O PROCESSO" + título + parágrafo +
+  **lista numerada de 3 itens** (ícone em círculo + título + descrição + número
+  fantasma) + CTA; foto em moldura **branca** sobre fundo creme (inverso da Sobre) +
+  acento de contorno fino + selo glass "Abordagem · Humanista"; empilha no mobile).
+  **Placeholder:** reusa `jamilly-sentada.png` (mesma foto da Sobre) — TROCAR por foto
+  de atendimento; foto idêntica nas 2 seções fica repetitiva.
+  Seção "Perguntas frequentes" (`SectionFaq.vue` — **accordion interativo**: `ref(0)`
+  controla qual item está aberto, 1 aberto por vez; animação de altura via grid
+  `0fr→1fr`; chevron SVG inline que rotaciona; itens creme sobre seção branca; 6
+  perguntas com conteúdo adaptado p/ Jamilly). **Atenção HMR:** componente novo —
+  precisa **reiniciar o dev server** p/ a interatividade (hidratação) funcionar.
+  Footer (`components/global/footer/Footer.vue` — fundo marrom-escuro + texto creme;
+  marca em Pacifico "Jamilly Ferreira" (a logo .png é escura, não usar no escuro);
+  tagline + 3 redes sociais (SVG inline: instagram/whatsapp/email) + colunas
+  Navegação e Contato + barra inferior com ano dinâmico). **Placeholders:** telefone,
+  e-mail, @instagram e CRP são fictícios — substituir pelos dados reais da Jamilly.
+  Seção "Vamos conversar / Dê o primeiro passo hoje" (`SectionContato.vue` — CTA final,
+  fundo creme: kicker + título + parágrafo + 2 cards: **WhatsApp** (`.acao.destaque`,
+  primário marrom, `wa.me` placeholder) e **Instagram** (`.acao.info`, NÃO é link —
+  só mostra `@jamillyferreirapsicologa`; a Jamilly ainda vai criar o Insta
+  profissional). Resolve os CTAs: todos os "Agendar" agora apontam p/ `#contato`.
+- Ordem na home (`index.vue`): Hero → Onda → Situacao → Onda → Processo → Onda → Sobre
+  → Onda → ComoFunciona → Onda → Faq → Onda → Contato → Onda(→marrom) → Footer (global).
+- **Âncoras das seções (ids únicos)**: Hero=`inicio`, Situacao=`situacao`,
+  Processo(benefícios)=`beneficios`, Sobre=`sobre`, ComoFunciona=`processo`,
+  Faq=`perguntas`. Nav/footer linkam: Início→`#inicio`, Sobre→`#sobre`,
+  Processo→`#processo`, Perguntas→`#perguntas`. `section[id]` tem
+  `scroll-margin-top: 100px` (normalize.sass) p/ não esconder sob a nav fixa.
+  Obs.: os CTAs "Agendar" ainda apontam p/ `#agendar` (âncora inexistente — ligar
+  ao destino real de agendamento depois).
+- **Status geral**: home completa (Hero→Contato→Footer). Instagram real = handle
+  `@jamillyferreirapsicologa` SEM link (perfil profissional ainda não existe).
+  Pendências = **número real do WhatsApp** (hoje `wa.me/5500000000000` placeholder em
+  Contato; ícones sociais de nav/footer ainda `href="#"`), CRP real, trocar foto da
+  ComoFunciona (hoje reusa `jamilly-sentada`). Depoimentos: **evitar** (restrição do
+  Código de Ética do CFP p/ depoimento de paciente).
 
 > Atenção: ao criar um **componente novo**, o HMR do Nuxt às vezes não o registra
-> (aparece como custom element não resolvido). Reinicie o dev server nesse caso.
+> (aparece como custom element não resolvido) e/ou **quebra a hidratação do app
+> inteiro** (nada fica interativo — accordion, hamburger etc.). Reinicie o dev server.
+> Pegadinha de CSS: `position: fixed` dentro de um ancestral com `backdrop-filter`
+> (ex.: a `<nav>`) se ancora nesse ancestral, não na viewport. Overlays full-screen
+> (menu mobile) devem usar `<Teleport to="body">`.
 - Conteúdo/textos das seções vêm do Figma; o visual dos cards é repaginado (cliente
   não curtiu o design original dos cards).
 

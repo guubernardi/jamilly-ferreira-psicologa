@@ -1,7 +1,7 @@
 <template>
-  <section class="hero">
+  <section id="inicio" class="hero">
     <div class="conteudo">
-      <div class="texto">
+      <div class="texto" v-revelar.filhos>
         <div class="selo">
           <SvgIcone nome="cerebro" cor="var(--cor-marrom-escuro)" :tamanho="25" />
           <span>PSICOTERAPIA ONLINE</span>
@@ -18,13 +18,13 @@
           <b>caminho desejamos seguir.</b>
         </p>
 
-        <a href="#agendar" class="agendar">
+        <a href="#contato" class="agendar">
           <SvgIcone nome="agenda" cor="var(--cor-branco)" :tamanho="26" />
           <span>Agendar minha sessão</span>
         </a>
       </div>
 
-      <div class="visual">
+      <div class="visual" v-revelar="0.15">
         <div class="blob"></div>
         <div class="recorte recorte-cima"></div>
         <div class="recorte recorte-baixo"></div>
@@ -140,7 +140,7 @@ p
   max-width: 700px
   aspect-ratio: 665 / 545
 
-// Blob pêssego — retângulo arredondado geométrico.
+// Blob pêssego, retângulo arredondado geométrico.
 // Cantos: topo-dir e baixo-esq grandes/suaves; topo-esq e baixo-dir recortados
 .blob
   position: absolute
@@ -208,7 +208,7 @@ p
   left: 2%
 .badge-2
   top: 8%
-  right: 1%
+  right: -5%
 .badge-3
   top: 54%
   left: 0%

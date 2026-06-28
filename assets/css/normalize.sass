@@ -30,6 +30,10 @@ div,
 section
   scrollbar-width: none
 
+// alvo de âncora não fica escondido sob a nav fixa
+section[id]
+  scroll-margin-top: 100px
+
 div::-webkit-scrollbar,
 section::-webkit-scrollbar
   display: none !important

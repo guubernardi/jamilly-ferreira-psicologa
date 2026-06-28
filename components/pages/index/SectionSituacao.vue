@@ -1,11 +1,11 @@
 <template>
-  <section id="atendimento" class="situacao">
-    <div class="cabecalho">
+  <section id="situacao" class="situacao">
+    <div class="cabecalho" v-revelar.filhos>
       <span class="kicker">VOCÊ NÃO ESTÁ SOZINHA</span>
       <h2>Se encontra <b>nessa situação?</b></h2>
     </div>
 
-    <div class="cards">
+    <div class="cards" v-revelar.filhos>
       <article v-for="card in cards" :key="card.titulo" class="card">
         <div class="icone">
           <SvgIcone :nome="card.icone" cor="var(--cor-marrom-botao)" :tamanho="34" />
@@ -15,12 +15,12 @@
       </article>
     </div>
 
-    <div class="fechamento">
+    <div class="fechamento" v-revelar.filhos>
       <p>
         Se você se reconheceu em alguma dessas situações, saiba que dá pra
         ressignificar esse momento  e <b>você não precisa fazer isso sozinha.</b>
       </p>
-      <a href="#agendar" class="botao">
+      <a href="#contato" class="botao">
         <SvgIcone nome="conversa" cor="var(--cor-branco)" :tamanho="22" />
         <span>Quero conversar</span>
       </a>

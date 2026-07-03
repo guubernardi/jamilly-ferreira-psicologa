@@ -67,7 +67,7 @@ const faqs = [
   },
   {
     p: 'Qual é a sua abordagem?',
-    r: 'Trabalho com uma abordagem humanista, que enxerga você de forma integral, com acolhimento, escuta, sem julgamento e respeitando o seu tempo.'
+    r: 'Trabalho com uma abordagem existencial-humanista, que enxerga você de forma integral, com acolhimento, escuta, sem julgamento e respeitando o seu tempo.'
   },
   {
     p: 'Como faço pra agendar a primeira sessão?',

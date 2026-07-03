@@ -37,7 +37,7 @@
         </div>
         <div class="badge badge-2">
           <SvgIcone nome="usuario" cor="var(--cor-marrom)" :tamanho="22" />
-          <span>Abordagem humanista</span>
+          <span>Atendimento humanizado</span>
         </div>
         <div class="badge badge-3">
           <SvgIcone nome="celular" cor="var(--cor-marrom)" :tamanho="22" />
@@ -208,13 +208,13 @@ p
   left: 2%
 .badge-2
   top: 8%
-  right: -5%
+  right: 2%
 .badge-3
   top: 54%
   left: 0%
 .badge-4
   top: 80%
-  right: -1%
+  right: 0%
 
 // ---------- Responsivo ----------
 @media screen and (max-width: 1100px)

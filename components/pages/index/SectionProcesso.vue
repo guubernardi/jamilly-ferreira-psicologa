@@ -4,7 +4,7 @@
     <div class="folha folha-2"><Folhagem /></div>
 
     <div class="cabecalho" v-revelar.filhos>
-      <h2>O que esse processo pode <b>abrir pra você</b></h2>
+      <h2>O que esse processo pode <b>contribuir para você</b></h2>
       <p>
         A terapia não te entrega respostas prontas. É um espaço pra você se olhar
         com mais honestidade e construir os próprios caminhos.

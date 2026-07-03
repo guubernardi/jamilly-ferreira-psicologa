@@ -63,7 +63,7 @@
           <SvgIcone nome="usuario" cor="var(--cor-marrom)" :tamanho="20" />
           <div class="selo-txt">
             <strong>Abordagem</strong>
-            <span>Humanista</span>
+            <span>Existencial-humanista</span>
           </div>
         </div>
       </div>

@@ -6,9 +6,9 @@
       <h2>Dê o primeiro <b>passo hoje</b></h2>
 
       <p>
-        Se algo por aqui fez sentido pra você, que tal começar? Me chama pra a
-        gente conversar sem compromisso, tirar suas dúvidas e encontrar o melhor
-        horário, no seu tempo.
+        Em alguns momentos da vida, pedir ajuda não é sinal de fraqueza. É um ato
+        de coragem. Se você sente que chegou a hora de olhar para si mesma com mais
+        atenção e acolhimento, será uma honra acompanhar você nessa jornada.
       </p>
 
       <div class="acoes">

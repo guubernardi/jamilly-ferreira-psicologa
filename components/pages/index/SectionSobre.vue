@@ -8,7 +8,7 @@
         <div class="moldura">
           <img
             class="foto"
-            src="/imagens/jamilly-sentada.png"
+            src="/images/foto-jamilly.jpeg"
             alt="Jamilly Ferreira de Medeiros, psicóloga, sentada e sorrindo"
           />
         </div>
@@ -41,6 +41,11 @@
           encontrá-las. Meu trabalho é caminhar ao seu lado nesse processo, com
           escuta e acolhimento, sem julgamento e respeitando o seu tempo.
         </p>
+
+        <ul class="frases">
+          <li>A liberdade é a essência da nossa existência</li>
+          <li>A angústia é o sinal da nossa liberdade</li>
+        </ul>
 
         <span class="assinatura">Jamilly Ferreira</span>
       </div>
@@ -164,6 +169,37 @@ h2
   font-size: clamp(1.1rem, 1.5vw, 1.45rem)
   line-height: 1.7
   color: var(--cor-preto)
+
+.frases
+  display: flex
+  flex-direction: column
+  gap: 14px
+  width: 100%
+  max-width: 460px
+  margin: 4px 0 2px
+  list-style: none
+  padding: 0
+
+  li
+    position: relative
+    padding: 10px 0 10px 26px
+    font-family: var(--light)
+    font-style: italic
+    font-size: clamp(1rem, 1.3vw, 1.18rem)
+    line-height: 1.5
+    color: var(--cor-marrom)
+    text-align: left
+    border-left: 2px solid var(--cor-pessego)
+
+  li::before
+    content: "“"
+    position: absolute
+    left: 10px
+    top: 4px
+    font-family: var(--script)
+    font-size: 1.4rem
+    line-height: 1
+    color: var(--cor-bege)
 
 .assinatura
   font-family: var(--script)

@@ -10,8 +10,10 @@ export default defineNuxtConfig({
   },
   experimental: {
     payloadExtraction: false,
-    inlineSSRStyles: false,
     viewTransition: true
+  },
+  features: {
+    inlineStyles: false
   },
   modules: ['@pinia/nuxt', '@nuxt/image'],
   image: {
@@ -28,12 +30,15 @@ export default defineNuxtConfig({
       }
     }
   },
-  build: {
-    optimization: {
-      splitChunks: {
-        layouts: true,
-        pages: true,
-        commons: true
+  vite: {
+    // @edusites/icons usa top-level await; o alvo padrão (es2020) não suporta
+    // e quebra o `nuxt build` (e, por tabela, o deploy da Vercel).
+    build: {
+      target: 'esnext'
+    },
+    optimizeDeps: {
+      esbuildOptions: {
+        target: 'esnext'
       }
     }
   },

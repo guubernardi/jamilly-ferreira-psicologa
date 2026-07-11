@@ -245,8 +245,16 @@ p
     span
       font-size: 0.85rem
 
-  .badge-3
+  // No mobile trocamos os lados: "Atendimento humanizado" (texto longo) vai p/ a
+  // esquerda no meio (cabe sem tampar o rosto) e "100% Online" (curto) sobe p/ a direita.
+  .badge-2
+    top: 52%
     left: 0
+    right: auto
+  .badge-3
+    top: 10%
+    right: 0
+    left: auto
   .badge-4
     right: 0
 </style>

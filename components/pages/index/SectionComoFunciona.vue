@@ -55,7 +55,11 @@
           <img
             class="foto"
             src="/imagens/jamilly-sentada.png"
-            alt="Jamilly Ferreira de Medeiros, psicóloga, durante atendimento"
+            alt="Jamilly Ferreira de Medeiros durante atendimento psicológico online"
+            width="768"
+            height="1364"
+            loading="lazy"
+            decoding="async"
           />
         </div>
 

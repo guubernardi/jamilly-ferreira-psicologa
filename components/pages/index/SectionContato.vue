@@ -14,10 +14,10 @@
       <div class="acoes">
         <a
           class="acao destaque"
-          href="https://wa.me/5500000000000"
+          :href="linkWhatsapp()"
           target="_blank"
           rel="noopener"
-          aria-label="Conversar no WhatsApp"
+          aria-label="Conversar no WhatsApp com Jamilly Ferreira"
         >
           <span class="ico">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -41,7 +41,7 @@
           </span>
           <span class="txt">
             <strong>Instagram</strong>
-            <small>@jamillyferreirapsicologa</small>
+            <small>{{ negocio.instagramHandle }}</small>
           </span>
         </div>
       </div>
@@ -49,7 +49,9 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { negocio, linkWhatsapp } from '~/helpers/site.js'
+</script>
 
 <style lang="sass" scoped>
 section.contato

@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://dominio.com/sitemap.xml

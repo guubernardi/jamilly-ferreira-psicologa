@@ -13,25 +13,32 @@
         class="item"
         :class="{ aberta: aberta === i }"
       >
-        <button
-          class="pergunta"
-          :aria-expanded="aberta === i"
-          @click="alternar(i)"
-        >
-          <span>{{ item.p }}</span>
-          <svg class="sinal" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              d="M6 9l6 6 6-6"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
+        <!-- Pergunta dentro de <h3>: dá à FAQ uma estrutura de tópicos que
+             buscadores e leitores de tela conseguem percorrer. O reset de CSS
+             zera margens de heading, então não muda nada visualmente. -->
+        <h3 class="titulo-pergunta">
+          <button
+            class="pergunta"
+            :id="`faq-btn-${i}`"
+            :aria-expanded="aberta === i"
+            :aria-controls="`faq-resp-${i}`"
+            @click="alternar(i)"
+          >
+            <span>{{ item.p }}</span>
+            <svg class="sinal" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M6 9l6 6 6-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </h3>
 
-        <div class="resposta">
+        <div class="resposta" :id="`faq-resp-${i}`" role="region" :aria-labelledby="`faq-btn-${i}`">
           <div class="resposta-inner">
             <p>{{ item.r }}</p>
           </div>
@@ -42,38 +49,15 @@
 </template>
 
 <script setup>
+// As perguntas vêm de helpers/faq.js — as mesmas alimentam o JSON-LD FAQPage
+// em pages/index.vue e o /llms-full.txt.
+import { faqs } from '~/helpers/faq.js'
+
 const aberta = ref(0)
 
 function alternar(i) {
   aberta.value = aberta.value === i ? -1 : i
 }
-
-const faqs = [
-  {
-    p: 'Como funcionam as sessões online?',
-    r: 'As sessões acontecem por chamada de vídeo, num ambiente seguro e sigiloso. Você só precisa de um local tranquilo e privado e de uma boa conexão de internet, pode ser de onde se sentir mais confortável.'
-  },
-  {
-    p: 'Qual a duração e a frequência dos encontros?',
-    r: 'Cada sessão tem duração média de 50 minutos. A frequência costuma ser semanal, mas a gente define juntas o ritmo que faz mais sentido pra o seu momento.'
-  },
-  {
-    p: 'Preciso ter um motivo “grave” pra começar terapia?',
-    r: 'Não. A terapia é um espaço de cuidado pra qualquer pessoa que queira se entender melhor, lidar com angústias do dia a dia ou simplesmente ter um lugar seguro pra falar.'
-  },
-  {
-    p: 'As sessões são sigilosas?',
-    r: 'Sim. Tudo o que você compartilha é protegido pelo sigilo profissional, um dos princípios fundamentais do Código de Ética da Psicologia.'
-  },
-  {
-    p: 'Qual é a sua abordagem?',
-    r: 'Trabalho com uma abordagem existencial-humanista, que enxerga você de forma integral, com acolhimento, escuta, sem julgamento e respeitando o seu tempo.'
-  },
-  {
-    p: 'Como faço pra agendar a primeira sessão?',
-    r: 'É só clicar em “Agendar minha sessão”. A gente combina um horário e, se quiser, tira suas dúvidas antes de começar, sem compromisso.'
-  }
-]
 </script>
 
 <style lang="sass" scoped>

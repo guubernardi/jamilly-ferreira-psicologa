@@ -9,12 +9,14 @@ definePageMeta({
   layout: 'web'
 })
 
-useHead({
-  title: 'Política de Privacidade',
-  meta: [
-    { name: 'description', content: 'Veja o documento de Política de Privacidade' },
-    { property: 'og:title', content: 'Política de Privacidade' },
-    { property: 'og:description', content: 'Veja o documento de Política de Privacidade' }
+useSeo({
+  caminho: '/documentos/politicas',
+  titulo: 'Política de Privacidade | Jamilly Ferreira',
+  descricao:
+    'Como os dados pessoais enviados pelo site da psicóloga Jamilly Ferreira são coletados, usados e protegidos, em conformidade com a LGPD.',
+  trilha: [
+    { nome: 'Início', caminho: '/' },
+    { nome: 'Política de Privacidade', caminho: '/documentos/politicas' }
   ]
 })
 </script>

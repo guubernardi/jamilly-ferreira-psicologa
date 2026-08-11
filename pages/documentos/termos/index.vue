@@ -9,12 +9,14 @@ definePageMeta({
   layout: 'web'
 })
 
-useHead({
-  title: 'Termos e Condições de Uso',
-  meta: [
-    { name: 'description', content: 'Veja o documento de Termos e Condições de Uso' },
-    { property: 'og:title', content: 'Termos e Condições de Uso' },
-    { property: 'og:description', content: 'Veja o documento de Termos e Condições de Uso' }
+useSeo({
+  caminho: '/documentos/termos',
+  titulo: 'Termos e Condições de Uso | Jamilly Ferreira',
+  descricao:
+    'Termos e condições de uso do site da psicóloga Jamilly Ferreira: regras de navegação, limites de responsabilidade e informações sobre o atendimento online.',
+  trilha: [
+    { nome: 'Início', caminho: '/' },
+    { nome: 'Termos e Condições de Uso', caminho: '/documentos/termos' }
   ]
 })
 </script>

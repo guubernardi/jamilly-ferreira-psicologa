@@ -5,75 +5,93 @@
 </template>
 
 <script setup>
+import { descricaoPadrao, marca, negocio } from '~/helpers/site.js'
+import { schemaGlobal, serializar } from '~/helpers/schema.js'
+
+const base = useUrlSite()
+
 useHead({
   htmlAttrs: {
     lang: 'pt-BR'
   },
+  // Sufixo de marca aplicado a todo título de página que não o traga pronto.
+  titleTemplate: (titulo) =>
+    titulo ? (titulo.includes(negocio.nome) ? titulo : `${titulo} | ${negocio.nome}`) : `${negocio.nome} | ${negocio.cargo}`,
   meta: [
-    // metatags
     { charset: 'utf-8' },
     { 'http-equiv': 'X-UA-Compatible', 'content': 'IE=edge' },
-    { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes' },
+    // Sem maximum-scale: travar o zoom reprova em acessibilidade (WCAG 1.4.4),
+    // e acessibilidade entra na avaliação de qualidade de página.
+    { name: 'viewport', content: 'width=device-width, initial-scale=1.0, viewport-fit=cover' },
     { name: 'format-detection', content: 'telephone=no' },
     { name: 'HandheldFriendly', content: 'true' },
-    { name: 'theme-color', content: '#FFFFFF' },
-    { name: 'msapplication-TileColor', content: '#FFFFFF' },
-    { name: 'msapplication-navbutton-color', content: '#FFFFFF' },
+    { name: 'theme-color', content: marca.corTema },
+    { name: 'msapplication-TileColor', content: marca.corTema },
+    { name: 'msapplication-navbutton-color', content: marca.corTema },
     { name: 'apple-mobile-web-app-capable', content: 'yes' },
-    { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
+    { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
     { name: 'mobile-web-app-capable', content: 'yes' },
-    { name: 'apple-mobile-web-app-title', content: 'Jamilly Ferreira' },
-    { name: 'application-name', content: 'Jamilly Ferreira' },
-    { name: 'robots', content: 'index, follow' },
-    { name: 'googlebot', content: 'index, follow, max-image-preview:large' },
-    { name: 'author', content: 'Jamilly Ferreira' },
+    { name: 'apple-mobile-web-app-title', content: negocio.nome },
+    { name: 'application-name', content: negocio.nome },
+    { name: 'author', content: negocio.nomeCompleto },
+    { name: 'publisher', content: negocio.nomeCompleto },
+    { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1' },
+    // Sinaliza a região de atendimento para buscadores que ainda leem geo tags.
+    { name: 'geo.region', content: `${negocio.paisCodigo}-${negocio.estadoSigla}` },
+    { name: 'geo.placename', content: negocio.cidade },
+    { name: 'geo.position', content: `${negocio.geo.lat};${negocio.geo.lng}` },
+    { name: 'ICBM', content: `${negocio.geo.lat}, ${negocio.geo.lng}` },
+    // Padrões de compartilhamento; cada página sobrescreve com os seus via useSeo().
     { property: 'og:type', content: 'website' },
-    { property: 'og:site_name', content: 'Jamilly Ferreira' },
+    { property: 'og:site_name', content: negocio.nome },
     { property: 'og:locale', content: 'pt_BR' },
-    { property: 'og:url', content: '' },
-    { property: 'og:image', content: '/favicons/share.png' },
-    { property: 'og:image:type', content: 'image/png' },
-    { property: 'og:image:width', content: '1920' },
-    { property: 'og:image:height', content: '1080' },
-    { property: 'og:image:alt', content: 'Jamilly Ferreira' },
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:image', content: '/favicons/share.png' }
+    { property: 'og:image:type', content: marca.compartilharTipo },
+    { name: 'twitter:card', content: 'summary_large_image' }
   ],
   link: [
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
     { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
     { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Pacifico&display=swap' },
+    // Fontes do texto acima da dobra: carregam junto do HTML em vez de esperar o CSS.
+    { rel: 'preload', as: 'font', type: 'font/woff', href: '/fonts/figtree-light.woff', crossorigin: '' },
+    { rel: 'preload', as: 'font', type: 'font/woff', href: '/fonts/figtree-bold.woff', crossorigin: '' },
+    // Maior imagem da primeira tela (LCP): começa a baixar antes do parser chegar nela.
+    { rel: 'preload', as: 'image', href: '/imagens/jamilly.png', fetchpriority: 'high' },
+    { rel: 'manifest', href: '/manifest.webmanifest' },
     { rel: 'icon', type: 'image/x-icon', href: '/favicons/favicon.ico' },
     { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' },
     { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicons/favicon-32x32.png' },
     { rel: 'icon', type: 'image/png', sizes: '194x194', href: '/favicons/favicon-194x194.png' },
     { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicons/apple-touch-icon.png' },
-    { rel: 'icon', type: 'image/png', sizes: '36x36', href: '/favicons/android-chrome-36x36.png' },
-    { rel: 'icon', type: 'image/png', sizes: '48x48', href: '/favicons/android-chrome-48x48.png' },
-    { rel: 'icon', type: 'image/png', sizes: '72x72', href: '/favicons/android-chrome-72x72.png' },
-    { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicons/android-chrome-96x96.png' },
-    { rel: 'icon', type: 'image/png', sizes: '144x144', href: '/favicons/android-chrome-144x144.png' },
     { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/favicons/android-chrome-192x192.png' },
-    { rel: 'icon', type: 'image/png', sizes: '256x256', href: '/favicons/android-chrome-256x256.png' },
-    { rel: 'icon', type: 'image/png', sizes: '384x384', href: '/favicons/android-chrome-384x384.png' },
-    { rel: 'icon', type: 'image/png', sizes: '512x512', href: '/favicons/android-chrome-512x512.png' },
-    { rel: 'mask-icon', href: '/favicons/safari-pinned-tab.svg', color: '#FFFFFF' }
+    { rel: 'icon', type: 'image/png', sizes: '512x512', href: '/favicons/android-chrome-512x512.png' }
+    // Sem `mask-icon`: ele exige um SVG monocromático vetorial, e o monograma da
+    // marca é raster. O Safari usa o favicon PNG normal na aba fixada.
+  ],
+  // Grafo de entidades do site (consultório + profissional + website).
+  // Fica no app.vue para estar presente em toda página; cada página soma o seu WebPage.
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: serializar(schemaGlobal(base))
+    }
   ]
 })
 
-onMounted(() => {
-  if (process.client) {
-    // impede arrastar imagens (cobre Firefox, onde CSS user-drag não funciona)
-    document.addEventListener('dragstart', (e) => {
-      if (e.target && e.target.tagName === 'IMG') e.preventDefault()
-    })
+// Descrição padrão: vale para qualquer página que não defina a sua.
+useSeoMeta({ description: descricaoPadrao })
 
-    watch(
-      () => useRoute().path,
-      () => {
-        window.scrollTo(0, 0)
-      }
-    )
-  }
+onMounted(() => {
+  // impede arrastar imagens (cobre Firefox, onde CSS user-drag não funciona)
+  document.addEventListener('dragstart', (e) => {
+    if (e.target && e.target.tagName === 'IMG') e.preventDefault()
+  })
+
+  watch(
+    () => useRoute().path,
+    () => {
+      window.scrollTo(0, 0)
+    }
+  )
 })
 </script>

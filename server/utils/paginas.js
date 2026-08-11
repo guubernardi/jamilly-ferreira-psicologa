@@ -1,0 +1,51 @@
+// Páginas públicas do site — usadas pelo sitemap.xml e pelo llms.txt.
+// Ao criar uma página nova em pages/, acrescente aqui.
+export const paginas = [
+  {
+    caminho: '/',
+    titulo: 'Psicóloga Online — Jamilly Ferreira',
+    resumo:
+      'Página principal: quem é a Jamilly, para quem é a terapia, o que o processo pode abrir, como funcionam as sessões, perguntas frequentes e contato.',
+    prioridade: '1.0',
+    frequencia: 'monthly'
+  },
+  {
+    caminho: '/documentos/politicas',
+    titulo: 'Política de Privacidade',
+    resumo: 'Como os dados enviados pelo site são coletados, usados e protegidos (LGPD).',
+    prioridade: '0.3',
+    frequencia: 'yearly'
+  },
+  {
+    caminho: '/documentos/termos',
+    titulo: 'Termos e Condições de Uso',
+    resumo: 'Regras de uso do site, limites de responsabilidade e informações sobre o atendimento.',
+    prioridade: '0.3',
+    frequencia: 'yearly'
+  }
+]
+
+/** Âncoras da home — cada seção é um destino de link direto. */
+export const secoesHome = [
+  { id: 'inicio', titulo: 'Início', resumo: 'Apresentação e chamada para agendar a sessão.' },
+  {
+    id: 'situacao',
+    titulo: 'Se encontra nessa situação?',
+    resumo:
+      'Três situações comuns: vazio difícil de nomear, perda de conexão consigo mesma, e estar diante de escolhas e mudanças.'
+  },
+  {
+    id: 'beneficios',
+    titulo: 'O que esse processo pode contribuir para você',
+    resumo:
+      'Se entender de verdade, fazer escolhas mais suas, ter um espaço seguro pra existir e reencontrar sentido.'
+  },
+  { id: 'sobre', titulo: 'Sobre mim', resumo: 'Quem é Jamilly Ferreira e como ela conduz o processo.' },
+  {
+    id: 'processo',
+    titulo: 'Como funciona o processo terapêutico?',
+    resumo: 'Sessões de 50 minutos, atendimento online por videochamada e processo personalizado.'
+  },
+  { id: 'perguntas', titulo: 'Perguntas frequentes', resumo: 'Dúvidas comuns sobre terapia online, sigilo e agendamento.' },
+  { id: 'contato', titulo: 'Contato', resumo: 'WhatsApp e Instagram para agendar a primeira sessão.' }
+]

@@ -29,7 +29,19 @@
         <div class="recorte recorte-cima"></div>
         <div class="recorte recorte-baixo"></div>
 
-        <img class="foto" src="/imagens/jamilly.png" alt="Jamilly Ferreira de Medeiros, psicóloga" />
+        <!-- Maior imagem da primeira tela: é ela que define o LCP. Por isso
+             carrega com prioridade alta e sem lazy, e traz width/height para o
+             navegador reservar o espaço antes de baixar (evita CLS). -->
+        <img
+          class="foto"
+          src="/imagens/jamilly.png"
+          alt="Jamilly Ferreira de Medeiros, psicóloga clínica, sorrindo"
+          width="768"
+          height="1364"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
 
         <div class="badge badge-1">
           <SvgIcone nome="cerebro-ia" cor="var(--cor-marrom)" :tamanho="22" />

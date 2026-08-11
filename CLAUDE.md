@@ -39,6 +39,18 @@ components/
     index/SectionComoFunciona.vue # -> <IndexSectionComoFunciona>
     index/SectionFaq.vue    # -> <IndexSectionFaq> (accordion interativo)
     index/SectionContato.vue # -> <IndexSectionContato> (CTA final: WhatsApp + Instagram)
+helpers/
+  site.js                   # FONTE ÚNICA: nome, CRP, WhatsApp, e-mail, cidade, serviços, termos
+  faq.js                    # perguntas do FAQ (usadas pela seção, pelo JSON-LD e pelo llms-full)
+  schema.js                 # construtores de JSON-LD (schema.org)
+composables/useSeo.js       # useSeo() = title + description + canonical + OG + Twitter + JSON-LD
+server/
+  utils/paginas.js          # páginas e âncoras públicas (sitemap + llms.txt)
+  routes/robots.txt.js      # robots dinâmico (bloqueia previews da Vercel)
+  routes/sitemap.xml.js     # sitemap dinâmico
+  routes/llms.txt.js        # índice p/ assistentes de IA (padrão llmstxt.org)
+  routes/llms-full.txt.js   # conteúdo completo do site em markdown
+error.vue                   # página 404/erro (noindex, com Nav e Footer)
 assets/css/
   variaveis.sass            # tokens (cores, fontes, escala de fonte) em :root
   fonts.sass                # @font-face Figtree (Pacifico vem do Google Fonts no app.vue)
@@ -159,12 +171,17 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
   `scroll-margin-top: 100px` (normalize.sass) p/ não esconder sob a nav fixa.
   Obs.: os CTAs "Agendar" ainda apontam p/ `#agendar` (âncora inexistente — ligar
   ao destino real de agendamento depois).
-- **Status geral**: home completa (Hero→Contato→Footer). Instagram real = handle
-  `@jamillyferreirapsicologa` SEM link (perfil profissional ainda não existe).
-  Pendências = **número real do WhatsApp** (hoje `wa.me/5500000000000` placeholder em
-  Contato; ícones sociais de nav/footer ainda `href="#"`), CRP real, trocar foto da
-  ComoFunciona (hoje reusa `jamilly-sentada`). Depoimentos: **evitar** (restrição do
-  Código de Ética do CFP p/ depoimento de paciente).
+- **Status geral**: home completa (Hero→Contato→Footer) + SEO técnico completo.
+  Instagram real = handle `@jamillyferreirapsicologa` SEM link (perfil profissional
+  ainda não existe; quando existir, preencher `negocio.instagramUrl` e ele entra
+  sozinho no `sameAs` do JSON-LD).
+  **Pendências, todas centralizadas em `helpers/site.js`**: `whatsapp` +
+  `telefoneExibicao`, `crp`, `email` ainda são placeholders — os links de WhatsApp
+  do Nav/Footer/Contato já apontam pro helper, então basta trocar lá. Falta também
+  trocar a foto da ComoFunciona (hoje reusa `jamilly-sentada`) e otimizar os PNGs
+  pesados (`jamilly.png` 818KB, `jamilly-sentada.png` 1MB → converter p/ WebP).
+  Depoimentos: **evitar** (restrição do Código de Ética do CFP p/ depoimento de
+  paciente) — o `llms.txt` já instrui as IAs a não inventarem avaliações.
 
 > Atenção: ao criar um **componente novo**, o HMR do Nuxt às vezes não o registra
 > (aparece como custom element não resolvido) e/ou **quebra a hidratação do app
@@ -174,6 +191,65 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
 > (menu mobile) devem usar `<Teleport to="body">`.
 - Conteúdo/textos das seções vêm do Figma; o visual dos cards é repaginado (cliente
   não curtiu o design original dos cards).
+
+## SEO
+
+**Regra de ouro: dado do negócio só existe em `helpers/site.js`.** CRP, WhatsApp,
+e-mail, cidade, Instagram e serviços saem dali para o rodapé, o Nav, a seção de
+Contato, o JSON-LD, o `llms.txt` e o `sitemap.xml`. Nunca escreva um telefone ou
+um `wa.me/...` direto no template.
+
+**Domínio**: `https://jamillyferreirapsicologa.com.br`, vindo de
+`runtimeConfig.public.siteUrl` (env `NUXT_PUBLIC_SITE_URL`, ver `.env.example`).
+Canonical, `og:url`, sitemap, robots, JSON-LD e llms.txt derivam dele — não há
+URL escrita à mão.
+
+**Toda página nova** deve chamar `useSeo({ caminho, titulo, descricao })` no
+`<script setup>` (nada de `useHead` com título solto) e ser acrescentada em
+`server/utils/paginas.js`, senão fica fora do sitemap e do llms.txt.
+
+**JSON-LD** (`helpers/schema.js`): grafo global no `app.vue` com três entidades
+ligadas por `@id` — `#psicologa` (Psychologist + ProfessionalService, com
+areaServed e catálogo de serviços), `#jamilly` (Person, com credencial CRP) e
+`#website`. Cada página soma seu `WebPage`; a home vira também `FAQPage`, e as
+páginas de documento ganham `BreadcrumbList`. Validar em
+search.google.com/test/rich-results.
+
+**Arquivos para IA**: `/llms.txt` (índice, padrão llmstxt.org) e `/llms-full.txt`
+(site inteiro em markdown). Ambos gerados das mesmas fontes da interface, então
+não desatualizam. Contêm restrições explícitas para o modelo não inventar: nada
+de preço, nada de depoimento, atendimento só online, e o CVV 188 para emergência.
+O `robots.txt` libera os crawlers de IA (GPTBot, ClaudeBot, PerplexityBot,
+Google-Extended etc.) de propósito — a intenção é ser citado como fonte.
+
+**Preview da Vercel**: `robots.txt` devolve `Disallow: /` quando
+`VERCEL_ENV !== 'production'`, para a URL `*.vercel.app` não ser indexada e
+competir com o site real como conteúdo duplicado.
+
+**Favicons** (`public/favicons/`): gerados do monograma "JM" recortado de
+`public/imagens/logo-marca.png` (bbox `x 617,y 199,185×189` — o arquivo **já tem
+canal alfa**, o fundo é transparente, não branco). Fundo creme `#F7F0E8`, marca a
+78% do quadro; a versão *maskable* usa 52% por causa do recorte circular do
+Android. Como a tinta original é bronze claro (`#9d8475`) e cobre só ~9% do
+quadro, nos tamanhos **≤48px a marca é repintada no marrom `#463830`** — no
+bronze ela sumia na aba. A 16px ainda é uma mancha suave: traço de script fino
+não é representável nesse tamanho, e engrossar por gama fecha o quadro todo.
+Não existe `safari-pinned-tab.svg` (exigiria vetor monocromático; o Safari cai
+no PNG normal).
+
+**Cuidados**:
+- O FAQ visível e o `FAQPage` do JSON-LD leem o mesmo `helpers/faq.js`. Se algum
+  dia divergirem, é penalidade — não duplique a lista.
+- A `og:image` é `/imagens/compartilhar.jpg` (1200×630), montada a partir do
+  lockup de `logo-marca.png` + a foto do hero sobre blob pêssego. Se trocar,
+  atualize `marca.compartilhar`, as dimensões **e** `compartilharTipo` em
+  `helpers/site.js`.
+- **As fontes da marca não renderizam por ferramenta**: `.woff` não carrega nem
+  via `fontfile` do Pango/sharp nem via `@font-face` embutido em SVG — os dois
+  caem silenciosamente na fonte padrão *sem erro* (compare larguras para
+  detectar). Por isso peças geradas fora do navegador usam o lockup do logo como
+  arte; só texto de apoio sai em fonte do sistema (Constantia).
+- Não travar zoom no viewport (`maximum-scale`) — reprova em acessibilidade.
 
 ## Fluxo de trabalho
 

@@ -18,17 +18,21 @@
 </template>
 
 <script setup>
+import { faqs } from '~/helpers/faq.js'
+
 definePageMeta({
   layout: 'web'
 })
 
-useHead({
-  title: 'Jamilly Ferreira | Psicóloga',
-  meta: [
-    { name: 'description', content: '' },
-    { property: 'og:title', content: 'Jamilly Ferreira | Psicóloga' },
-    { property: 'og:description', content: '' }
-  ]
+// Título com a intenção de busca na frente ("psicóloga online") e o nome depois:
+// a marca ainda não tem volume de busca próprio, então o termo genérico puxa mais.
+useSeo({
+  caminho: '/',
+  titulo: 'Psicóloga Online | Jamilly Ferreira — Psicoterapia Humanizada',
+  descricao:
+    'Psicoterapia online com Jamilly Ferreira, psicóloga clínica em São Bernardo do Campo. Sessões de 50 min por videochamada, escuta sem julgamento e sigilo.',
+  // As mesmas perguntas exibidas na seção de FAQ viram FAQPage no JSON-LD.
+  faqs
 })
 </script>
 

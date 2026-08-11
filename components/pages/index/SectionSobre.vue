@@ -9,7 +9,11 @@
           <img
             class="foto"
             src="/images/foto-jamilly.jpeg"
-            alt="Jamilly Ferreira de Medeiros, psicóloga, sentada e sorrindo"
+            alt="Jamilly Ferreira de Medeiros, psicóloga clínica em abordagem existencial-humanista"
+            width="768"
+            height="1364"
+            loading="lazy"
+            decoding="async"
           />
         </div>
 

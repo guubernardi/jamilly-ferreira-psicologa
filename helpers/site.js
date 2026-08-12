@@ -14,9 +14,9 @@ export const negocio = {
   abordagem: 'Existencial-humanista',
 
   // Contato
-  whatsapp: '5500000000000', // PLACEHOLDER — DDI+DDD+número, só dígitos
-  telefoneExibicao: '(00) 0 0000-0000', // PLACEHOLDER
-  email: 'contato@jamillyferreira.com.br', // PLACEHOLDER
+  whatsapp: '5511976461399', // DDI+DDD+número, só dígitos (formato do wa.me)
+  telefoneExibicao: '(11) 97646-1399',
+  email: 'jamillyferreira.psi@gmail.com',
   instagramHandle: '@jamillyferreirapsicologa',
   // A Jamilly ainda vai criar o perfil profissional; enquanto for null o handle
   // aparece como texto, sem link, e fica fora do sameAs do JSON-LD.

@@ -28,7 +28,7 @@ definePageMeta({
 // a marca ainda não tem volume de busca próprio, então o termo genérico puxa mais.
 useSeo({
   caminho: '/',
-  titulo: 'Psicóloga Online | Jamilly Ferreira — Psicoterapia Humanizada',
+  titulo: 'Psicóloga Online e Psicoterapia Humanizada | Jamilly Ferreira',
   descricao:
     'Psicoterapia online com Jamilly Ferreira, psicóloga clínica em São Bernardo do Campo. Sessões de 50 min por videochamada, escuta sem julgamento e sigilo.',
   // As mesmas perguntas exibidas na seção de FAQ viram FAQPage no JSON-LD.

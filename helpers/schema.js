@@ -75,7 +75,7 @@ export function schemaGlobal(base) {
   const consultorio = {
     '@type': ['Psychologist', 'ProfessionalService'],
     '@id': id.psicologa,
-    name: `${negocio.nome} — ${negocio.cargo}`,
+    name: `${negocio.nome}, ${negocio.cargo}`,
     description: descricaoPadrao,
     url: base,
     image: imagem,

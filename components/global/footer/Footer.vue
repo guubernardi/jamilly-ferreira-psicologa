@@ -10,13 +10,19 @@
         </p>
 
         <div class="sociais">
-          <span class="rede" aria-label="Instagram">
+          <NuxtLink
+            class="rede"
+            :to="linkInstagram()"
+            :target="instagramEhExterno() ? '_blank' : undefined"
+            :rel="instagramEhExterno() ? 'noopener' : undefined"
+            aria-label="Instagram"
+          >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
               <rect x="3" y="3" width="18" height="18" rx="5" />
               <circle cx="12" cy="12" r="4" />
               <circle cx="17" cy="7" r="1.1" fill="currentColor" stroke="none" />
             </svg>
-          </span>
+          </NuxtLink>
           <a
             class="rede"
             :href="linkWhatsapp()"
@@ -55,7 +61,7 @@
           <span class="local">Atendimento 100% online</span>
           <!-- Cidade no rodapé: sinal clássico de SEO local (NAP). O atendimento
                é online, então a linha seguinte deixa isso explícito. -->
-          <span class="local">{{ negocio.cidade }} — {{ negocio.estadoSigla }}</span>
+          <span class="local">{{ negocio.cidade }}, {{ negocio.estadoSigla }}</span>
         </div>
 
         <div class="col">
@@ -99,7 +105,7 @@
 </template>
 
 <script setup>
-import { negocio, linkWhatsapp } from '~/helpers/site.js'
+import { negocio, linkWhatsapp, linkInstagram, instagramEhExterno } from '~/helpers/site.js'
 
 const ano = new Date().getFullYear()
 </script>

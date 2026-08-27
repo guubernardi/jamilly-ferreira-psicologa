@@ -36,7 +36,7 @@ export default defineNuxtConfig({
     // sem esperar renderização no servidor (TTFB menor = melhor rastreabilidade).
     prerender: {
       crawlLinks: false,
-      routes: ['/', '/documentos/politicas', '/documentos/termos']
+      routes: ['/', '/bio', '/documentos/politicas', '/documentos/termos']
     },
     storage: {
       memory: {

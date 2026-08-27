@@ -2,7 +2,7 @@
 // Tudo que aparece em metatags, JSON-LD, sitemap, robots.txt e llms.txt sai daqui,
 // então mudar um dado (WhatsApp, CRP, e-mail) é mudar em UM lugar só.
 //
-// Os campos marcados com PLACEHOLDER ainda são fictícios — trocar pelos reais.
+// Único dado ainda ausente: instagramUrl (o perfil profissional não existe).
 
 export const SITE_URL = 'https://jamillyferreirapsicologa.com.br'
 
@@ -10,7 +10,7 @@ export const negocio = {
   nome: 'Jamilly Ferreira',
   nomeCompleto: 'Jamilly Ferreira de Medeiros',
   cargo: 'Psicóloga Clínica',
-  crp: '06/000000', // PLACEHOLDER — CRP real da Jamilly (SP = região 06)
+  crp: '06/237828', // Conselho Regional de Psicologia — 6ª região (SP)
   abordagem: 'Existencial-humanista',
 
   // Contato
@@ -67,7 +67,7 @@ export const servicos = [
   {
     nome: 'Apoio psicológico em transições de vida',
     descricao:
-      'Suporte em fases de escolhas e mudanças — carreira, relacionamentos, maternidade, luto e recomeços.'
+      'Suporte em fases de escolhas e mudanças: carreira, relacionamentos, maternidade, luto e recomeços.'
   },
   {
     nome: 'Autoconhecimento e reconexão consigo mesma',
@@ -106,7 +106,7 @@ export const marca = {
 // Descrição curta reaproveitada em vários lugares (og:description padrão, manifest,
 // JSON-LD). Mantida abaixo de ~160 caracteres para não ser cortada na SERP.
 export const descricaoPadrao =
-  'Psicoterapia online com Jamilly Ferreira, psicóloga clínica. Um espaço de acolhimento, escuta e construção de sentido — atendimento humanizado e sigiloso.'
+  'Psicoterapia online com Jamilly Ferreira, psicóloga clínica. Um espaço de acolhimento, escuta e construção de sentido. Atendimento humanizado e sigiloso.'
 
 /** Monta uma URL absoluta a partir de um caminho relativo. */
 export function urlAbsoluta(caminho = '/', base = SITE_URL) {
@@ -125,4 +125,19 @@ export function linkWhatsapp(
 /** Perfis oficiais — vira o `sameAs` do JSON-LD. Só entra o que existe de fato. */
 export function perfisSociais() {
   return [negocio.instagramUrl].filter(Boolean)
+}
+
+/**
+ * Destino do ícone do Instagram: o perfil real quando existir, senão a página
+ * /instagram, que avisa que ainda está sendo montado. Assim nenhum ícone da
+ * interface fica morto, e no dia que `instagramUrl` for preenchido todos os
+ * pontos passam a apontar pro perfil de verdade sem mais nenhuma edição.
+ */
+export function linkInstagram() {
+  return negocio.instagramUrl || '/instagram'
+}
+
+/** true quando o Instagram já é um link externo (precisa de target/rel). */
+export function instagramEhExterno() {
+  return Boolean(negocio.instagramUrl)
 }

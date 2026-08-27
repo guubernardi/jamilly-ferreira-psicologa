@@ -25,6 +25,7 @@ pnpm preview    # preview do build
 app.vue                     # <head> global (metatags, fontes, favicons)
 layouts/web.vue             # layout principal: Nav + <slot> + Footer; #tela = bg/fonte global
 pages/index.vue             # home — monta as seções e as ondas entre elas
+pages/bio.vue               # /bio — cartão de visita digital (sem Nav/Footer)
 components/
   global/                   # auto-import; nome = caminho com segmentos repetidos colapsados
     nav/Nav.vue             # -> <Nav>
@@ -50,6 +51,7 @@ server/
   routes/sitemap.xml.js     # sitemap dinâmico
   routes/llms.txt.js        # índice p/ assistentes de IA (padrão llmstxt.org)
   routes/llms-full.txt.js   # conteúdo completo do site em markdown
+  routes/jamilly-ferreira.vcf.js # vCard do botão "Salvar meu contato" do /bio
 error.vue                   # página 404/erro (noindex, com Nav e Footer)
 assets/css/
   variaveis.sass            # tokens (cores, fontes, escala de fonte) em :root
@@ -175,11 +177,10 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
   Instagram real = handle `@jamillyferreirapsicologa` SEM link (perfil profissional
   ainda não existe; quando existir, preencher `negocio.instagramUrl` e ele entra
   sozinho no `sameAs` do JSON-LD).
-  **Pendências, todas centralizadas em `helpers/site.js`**: `whatsapp` +
-  `telefoneExibicao`, `crp`, `email` ainda são placeholders — os links de WhatsApp
-  do Nav/Footer/Contato já apontam pro helper, então basta trocar lá. Falta também
-  trocar a foto da ComoFunciona (hoje reusa `jamilly-sentada`) e otimizar os PNGs
-  pesados (`jamilly.png` 818KB, `jamilly-sentada.png` 1MB → converter p/ WebP).
+  **Dados reais já preenchidos** em `helpers/site.js`: WhatsApp, telefone, e-mail
+  e CRP (06/237828). O único campo ainda vazio é `instagramUrl`. Pendências de
+  mídia: trocar a foto da ComoFunciona (hoje reusa `jamilly-sentada`) e otimizar
+  os PNGs pesados (`jamilly.png` 818KB, `jamilly-sentada.png` 1MB → WebP).
   Depoimentos: **evitar** (restrição do Código de Ética do CFP p/ depoimento de
   paciente) — o `llms.txt` já instrui as IAs a não inventarem avaliações.
 
@@ -250,6 +251,44 @@ no PNG normal).
   detectar). Por isso peças geradas fora do navegador usam o lockup do logo como
   arte; só texto de apoio sai em fonte do sistema (Constantia).
 - Não travar zoom no viewport (`maximum-scale`) — reprova em acessibilidade.
+
+## Página /bio (cartão de visita digital)
+
+Pedido da Jamilly, com referência visual que ela mandou (cartão digital de uma
+designer de interiores). A estrutura segue essa referência:
+
+```
+capa (banner)  -> public/imagens/bio-capa.jpg
+painel escuro  -> retrato circular sobreposto + nome + cargo + CRP
+                  "Toque nos ícones" (orientação, entre riscos)
+                  pílula principal: Agende sua sessão
+                  fileira de 4 ícones quadrados: WhatsApp, Instagram, e-mail, site
+                  pílula secundária: Salvar meu contato
+```
+
+- `pages/bio.vue`, com `layout: 'default'` (sem Nav e sem Footer: a página **é**
+  o cartão, não uma seção do site).
+- **Paleta invertida de propósito**: painel `--cor-marrom-escuro` com texto creme
+  e contornos em `--cor-bege`. A referência é escura com dourado; esse é o
+  equivalente na paleta da Jamilly, e conversa com o rodapé do site.
+- **A capa é peça de marca, não foto.** A referência usa foto do espaço de
+  trabalho, mas o atendimento é 100% online e não há consultório. O banner é
+  gerado (degradê creme -> pêssego + a folhagem de `Folhagem.vue`).
+- O retrato sobe sobre a capa por `margin-top: -54px` na linha `.identidade`;
+  o `padding-top: 62px` em `.nome` devolve o texto para dentro do painel. Mexer
+  num sem mexer no outro desalinha nome e foto.
+- O Instagram vira `<div class="quadrado inerte">` enquanto `negocio.instagramUrl`
+  for `null`. Quando o perfil existir, ele volta a ser `<a>` sozinho.
+- **"Salvar meu contato"** baixa `/jamilly-ferreira.vcf`, gerado em
+  `server/routes/jamilly-ferreira.vcf.js` a partir de `helpers/site.js`.
+  vCard **3.0** de propósito (a 4.0 tem suporte irregular no Android) e linhas
+  separadas por CRLF, como o padrão exige.
+- Ícones de `@edusites/icons`: `toque`, `whatsapp`, `agenda`, `instagram`,
+  `envelope-1`, `globo`, `download`. Conferir se o nome existe antes de usar,
+  com `ls node_modules/@edusites/icons/src/icones/ | grep termo`.
+- Entra no sitemap e no llms.txt via `server/utils/paginas.js`, e no prerender
+  via `nuxt.config.ts`. Não fica linkada no Nav: o destino dela é a bio do
+  Instagram.
 
 ## Fluxo de trabalho
 

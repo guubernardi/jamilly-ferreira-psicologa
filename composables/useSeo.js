@@ -53,7 +53,7 @@ export function useSeo(opcoes = {}) {
     ogImage: imagemAbsoluta,
     ogImageWidth: marca.compartilharLargura,
     ogImageHeight: marca.compartilharAltura,
-    ogImageAlt: `${negocio.nomeCompleto} — ${negocio.cargo}`,
+    ogImageAlt: `${negocio.nomeCompleto}, ${negocio.cargo}`,
     twitterCard: 'summary_large_image',
     twitterTitle: titulo,
     twitterDescription: descricao,

@@ -31,7 +31,12 @@
           </span>
         </a>
 
-        <div class="acao info">
+        <NuxtLink
+          class="acao info"
+          :to="linkInstagram()"
+          :target="instagramEhExterno() ? '_blank' : undefined"
+          :rel="instagramEhExterno() ? 'noopener' : undefined"
+        >
           <span class="ico">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
               <rect x="3" y="3" width="18" height="18" rx="5" />
@@ -43,14 +48,14 @@
             <strong>Instagram</strong>
             <small>{{ negocio.instagramHandle }}</small>
           </span>
-        </div>
+        </NuxtLink>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { negocio, linkWhatsapp } from '~/helpers/site.js'
+import { negocio, linkWhatsapp, linkInstagram, instagramEhExterno } from '~/helpers/site.js'
 </script>
 
 <style lang="sass" scoped>

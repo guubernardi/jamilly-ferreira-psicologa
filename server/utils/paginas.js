@@ -10,6 +10,14 @@ export const paginas = [
     frequencia: 'monthly'
   },
   {
+    caminho: '/bio',
+    titulo: 'Cartão de contato',
+    resumo:
+      'Cartão de visita digital: WhatsApp, e-mail, Instagram e download do contato para a agenda.',
+    prioridade: '0.6',
+    frequencia: 'yearly'
+  },
+  {
     caminho: '/documentos/politicas',
     titulo: 'Política de Privacidade',
     resumo: 'Como os dados enviados pelo site são coletados, usados e protegidos (LGPD).',

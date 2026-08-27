@@ -31,7 +31,7 @@ const titulo = computed(() =>
 )
 const mensagem = computed(() =>
   ehNaoEncontrado.value
-    ? 'O endereço que você tentou acessar não está aqui — pode ter sido movido ou digitado com algum erro. Nada de mais: dá pra continuar pelo início.'
+    ? 'O endereço que você tentou acessar não está aqui. Pode ter sido movido ou digitado com algum erro. Nada de mais: dá pra continuar pelo início.'
     : 'Tivemos um problema inesperado ao carregar esta página. Tente novamente em instantes.'
 )
 

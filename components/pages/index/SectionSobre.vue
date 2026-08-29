@@ -8,10 +8,10 @@
         <div class="moldura">
           <img
             class="foto"
-            src="/images/foto-jamilly.jpeg"
+            src="/images/sobre-mim-jamilly.jpeg"
             alt="Jamilly Ferreira de Medeiros, psicóloga clínica em abordagem existencial-humanista"
-            width="768"
-            height="1364"
+            width="367"
+            height="905"
             loading="lazy"
             decoding="async"
           />
@@ -115,7 +115,7 @@ section.sobre
   width: 100%
   height: 100%
   object-fit: cover
-  object-position: center
+  object-position: center 15%
   border-radius: 64px 16px 64px 16px
 
 // selo flutuante (glassmorphism) sobre a foto

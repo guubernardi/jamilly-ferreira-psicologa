@@ -12,6 +12,9 @@
     <Onda corTopo="var(--cor-fundo)" cor="#FFFFFF" />
     <IndexSectionFaq />
     <Onda corTopo="#FFFFFF" cor="var(--cor-fundo)" />
+    <!-- Pensando e Contato são o mesmo movimento de fechamento: as duas ficam
+         em creme e sem onda entre elas, o fecho de uma emenda no CTA da outra. -->
+    <IndexSectionPensando />
     <IndexSectionContato />
     <Onda corTopo="var(--cor-fundo)" cor="var(--cor-marrom-escuro)" />
   </div>

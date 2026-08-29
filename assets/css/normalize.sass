@@ -34,6 +34,15 @@ section
 section[id]
   scroll-margin-top: 100px
 
+// Nada de palavra órfã sozinha na última linha. `balance` iguala as linhas de
+// blocos curtos (títulos, rótulos); `pretty` cuida do texto corrido, longo
+// demais pra balancear. Navegador sem suporte quebra como sempre.
+h1, h2, h3, h4, h5, h6, blockquote, figcaption
+  text-wrap: balance
+
+p, li, dd
+  text-wrap: pretty
+
 div::-webkit-scrollbar,
 section::-webkit-scrollbar
   display: none !important

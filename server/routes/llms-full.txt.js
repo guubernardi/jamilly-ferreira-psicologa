@@ -3,10 +3,12 @@
 // Complemento de /llms.txt: enquanto aquele é o índice, este entrega o texto
 // completo para o modelo responder sem precisar rastrear o HTML. Gerado a
 // partir das mesmas fontes que alimentam a interface (helpers/faq.js,
-// helpers/site.js), então não sai do ar com o conteúdo visível.
+// helpers/site.js, helpers/beneficios.js), então não sai do ar com o conteúdo visível.
 
 import { negocio, areasAtendidas, servicos } from '../../helpers/site.js'
 import { faqs } from '../../helpers/faq.js'
+import { beneficios } from '../../helpers/beneficios.js'
+import { pensamentos, fechoPensando } from '../../helpers/pensando.js'
 
 export default defineEventHandler((event) => {
   const base = useRuntimeConfig(event).public.siteUrl.replace(/\/$/, '')
@@ -66,15 +68,12 @@ precisa fazer isso sozinha.
 
 ---
 
-## O que o processo pode contribuir
+## O processo terapêutico pode contribuir para
 
 A terapia não entrega respostas prontas. É um espaço para a pessoa se olhar com
 mais honestidade e construir os próprios caminhos:
 
-- Se entender de verdade
-- Fazer escolhas mais suas
-- Ter um espaço seguro pra existir
-- Reencontrar sentido
+${beneficios.map((b) => `- ${b}.`).join('\n')}
 
 ---
 
@@ -116,6 +115,16 @@ ${servicos.map((s) => `### ${s.nome}\n${s.descricao}`).join('\n\n')}
 ## Perguntas frequentes
 
 ${faqs.map((f) => `### ${f.p}\n${f.r}`).join('\n\n')}
+
+---
+
+## Talvez você esteja pensando
+
+Hesitações comuns antes da primeira sessão, com a resposta da psicóloga:
+
+${pensamentos.map((p) => `### "${p.pensamento}"\n${p.resposta}`).join('\n\n')}
+
+${fechoPensando.join('\n\n')}
 
 ---
 

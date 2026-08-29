@@ -32,6 +32,7 @@ components/
     footer/Footer.vue       # -> <Footer>
     onda/Onda.vue           # -> <Onda>  (divisor em onda entre seções)
     elementos/Botao.vue     # -> <ElementosBotao> (stub)
+    psi/Psi.vue             # -> <Psi> (o Ψ da psicologia, traço monolinha)
   pages/
     index/SectionHero.vue   # -> <IndexSectionHero>
     index/SectionSituacao.vue # -> <IndexSectionSituacao>
@@ -39,10 +40,13 @@ components/
     index/SectionSobre.vue  # -> <IndexSectionSobre>
     index/SectionComoFunciona.vue # -> <IndexSectionComoFunciona>
     index/SectionFaq.vue    # -> <IndexSectionFaq> (accordion interativo)
+    index/SectionPensando.vue # -> <IndexSectionPensando> (objeções antes da 1a sessão)
     index/SectionContato.vue # -> <IndexSectionContato> (CTA final: WhatsApp + Instagram)
 helpers/
   site.js                   # FONTE ÚNICA: nome, CRP, WhatsApp, e-mail, cidade, serviços, termos
   faq.js                    # perguntas do FAQ (usadas pela seção, pelo JSON-LD e pelo llms-full)
+  beneficios.js             # os 11 itens do "pode contribuir para" (seção + paginas.js + llms-full)
+  pensando.js               # "Talvez você esteja pensando…": 5 hesitações + fecho
   schema.js                 # construtores de JSON-LD (schema.org)
 composables/useSeo.js       # useSeo() = title + description + canonical + OG + Twitter + JSON-LD
 server/
@@ -58,8 +62,10 @@ assets/css/
   fonts.sass                # @font-face Figtree (Pacifico vem do Google Fonts no app.vue)
   index.sass                # @use de todos os css base
 plugins/edusites-icons.js   # registra <SvgIcone> global
-public/images/              # logo.png (logo completa), jamilly-header.png
-public/imagens/             # jamilly.png (hero), jamilly-sentada.png (Sobre mim),
+public/images/              # logo.png (logo completa), jamilly-header.png,
+                            # foto-jamilly.jpeg (retrato do /bio e do vCard),
+                            # sobre-mim-jamilly.jpeg (Sobre mim)
+public/imagens/             # jamilly.png (hero), jamilly-sentada.png (ComoFunciona),
                             # ornamento-sobre.svg (galho divisor do "SOBRE MIM"), logo-marca.png
 stores/                     # Pinia
 ```
@@ -110,6 +116,9 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
 - **Transição entre seções = onda em "U"**: `<Onda cor="<cor-da-secao-de-baixo>" />`
   entre duas seções. As seções **alternam de cor** (creme ↔ branco) pra onda
   aparecer. Curva simétrica (bowl), não em S.
+- **Sem palavra órfã**: `normalize.sass` aplica `text-wrap: balance` em títulos e
+  `text-wrap: pretty` em `p`/`li`, pra nenhuma linha terminar com uma palavra
+  solta. Em rótulo curto de card, repetir `text-wrap: balance` local.
 - **Hover**: `transition: all 0.3s`. **Sem `translateY`** em botões/links (preferência
   do cliente). Links da nav: só muda cor (sem sublinhado/`::after`). Cards podem ter
   efeito de sombra/escala em pseudo-elementos.
@@ -131,10 +140,13 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
   links + Agendar; no desktop o nav do topo vira `position: relative` (rola junto) e
   o flutuante assume), Hero, Onda (divisor U),
   Seção "Se encontra nessa situação?" (3 cards + frase-ponte + CTA),
-  Seção "O que esse processo pode abrir pra você" (`SectionProcesso.vue` — ilustração
-  SVG da semente brotando no centro + 4 balões em órbita com linhas pontilhadas;
-  empilha no mobile),
-  Seção "Sobre mim" (`SectionSobre.vue` — 2 colunas: foto `jamilly-sentada.png` à
+  Seção "O processo terapêutico pode contribuir para:" (`SectionProcesso.vue` —
+  composição toda no eixo central: cabeçalho, ilustração SVG da semente brotando
+  como divisor, e os 11 itens de `helpers/beneficios.js` em cards claros. A lista
+  é **flex-wrap com `justify-content: center`**, não grid: 11 não fecha nenhuma
+  grade, e no flex a última linha incompleta centraliza em vez de deixar buraco
+  no canto. 3 por linha no desktop, 2 até 1100px, 1 até 700px),
+  Seção "Sobre mim" (`SectionSobre.vue` — 2 colunas: foto `sobre-mim-jamilly.jpeg` à
   esquerda em moldura/porta-retrato + acento pêssego deslocado + selo glass "Escuta
   sem julgamento"; à direita título "SOBRE MIM" com ornamento de galho (SVG inline) +
   parágrafo + **assinatura em Pacifico "Jamilly Ferreira"**; empilha no mobile).
@@ -147,8 +159,7 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
   **lista numerada de 3 itens** (ícone em círculo + título + descrição + número
   fantasma) + CTA; foto em moldura **branca** sobre fundo creme (inverso da Sobre) +
   acento de contorno fino + selo glass "Abordagem · Humanista"; empilha no mobile).
-  **Placeholder:** reusa `jamilly-sentada.png` (mesma foto da Sobre) — TROCAR por foto
-  de atendimento; foto idêntica nas 2 seções fica repetitiva.
+  **Placeholder:** usa `jamilly-sentada.png` — TROCAR por foto de atendimento.
   Seção "Perguntas frequentes" (`SectionFaq.vue` — **accordion interativo**: `ref(0)`
   controla qual item está aberto, 1 aberto por vez; animação de altura via grid
   `0fr→1fr`; chevron SVG inline que rotaciona; itens creme sobre seção branca; 6
@@ -159,16 +170,26 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
   tagline + 3 redes sociais (SVG inline: instagram/whatsapp/email) + colunas
   Navegação e Contato + barra inferior com ano dinâmico). **Placeholders:** telefone,
   e-mail, @instagram e CRP são fictícios — substituir pelos dados reais da Jamilly.
+  Seção "Talvez você esteja pensando…" (`SectionPensando.vue` — texto da Jamilly,
+  em `helpers/pensando.js`: 5 hesitações antes da primeira sessão + um fecho de 2
+  frases. Cada item é um **card de duas vozes**: à esquerda o pensamento em itálico
+  marrom com aspa decorativa em Pacifico, à direita a resposta, separadas por um
+  filete pêssego vertical (vira régua horizontal ao empilhar em ≤900px). Formato
+  escolhido pra não repetir nem o accordion do FAQ nem a grade de chips do Processo,
+  e porque em 2 colunas a seção fica com metade da altura. Fundo creme, colada no
+  Contato),
   Seção "Vamos conversar / Dê o primeiro passo hoje" (`SectionContato.vue` — CTA final,
   fundo creme: kicker + título + parágrafo + 2 cards: **WhatsApp** (`.acao.destaque`,
   primário marrom, `wa.me` placeholder) e **Instagram** (`.acao.info`, NÃO é link —
   só mostra `@jamillyferreirapsicologa`; a Jamilly ainda vai criar o Insta
   profissional). Resolve os CTAs: todos os "Agendar" agora apontam p/ `#contato`.
 - Ordem na home (`index.vue`): Hero → Onda → Situacao → Onda → Processo → Onda → Sobre
-  → Onda → ComoFunciona → Onda → Faq → Onda → Contato → Onda(→marrom) → Footer (global).
+  → Onda → ComoFunciona → Onda → Faq → Onda → **Pensando** → Contato → Onda(→marrom)
+  → Footer (global). **Pensando e Contato não têm onda entre si**: as duas são creme
+  e formam um movimento único de fechamento, o fecho de uma emenda no CTA da outra.
 - **Âncoras das seções (ids únicos)**: Hero=`inicio`, Situacao=`situacao`,
   Processo(benefícios)=`beneficios`, Sobre=`sobre`, ComoFunciona=`processo`,
-  Faq=`perguntas`. Nav/footer linkam: Início→`#inicio`, Sobre→`#sobre`,
+  Faq=`perguntas`, Pensando=`pensando`. Nav/footer linkam: Início→`#inicio`, Sobre→`#sobre`,
   Processo→`#processo`, Perguntas→`#perguntas`. `section[id]` tem
   `scroll-margin-top: 100px` (normalize.sass) p/ não esconder sob a nav fixa.
   Obs.: os CTAs "Agendar" ainda apontam p/ `#agendar` (âncora inexistente — ligar
@@ -179,8 +200,10 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
   sozinho no `sameAs` do JSON-LD).
   **Dados reais já preenchidos** em `helpers/site.js`: WhatsApp, telefone, e-mail
   e CRP (06/237828). O único campo ainda vazio é `instagramUrl`. Pendências de
-  mídia: trocar a foto da ComoFunciona (hoje reusa `jamilly-sentada`) e otimizar
+  mídia: trocar a foto da ComoFunciona (hoje usa `jamilly-sentada`) e otimizar
   os PNGs pesados (`jamilly.png` 818KB, `jamilly-sentada.png` 1MB → WebP).
+  A `sobre-mim-jamilly.jpeg` veio em 367x905 e ocupa ~372px de largura: no 1x
+  passa, no 2x fica levemente macia. Pedir o original em resolução maior.
   Depoimentos: **evitar** (restrição do Código de Ética do CFP p/ depoimento de
   paciente) — o `llms.txt` já instrui as IAs a não inventarem avaliações.
 
@@ -239,6 +262,14 @@ Não existe `safari-pinned-tab.svg` (exigiria vetor monocromático; o Safari cai
 no PNG normal).
 
 **Cuidados**:
+- `helpers/pensando.js` alimenta a seção, a âncora `#pensando` e o `/llms-full.txt`.
+  As 5 hesitações **não entram no `FAQPage`** do JSON-LD de propósito: o invariante
+  é "o que está no FAQPage é exatamente o que a seção de FAQ mostra". Se um dia
+  quiser incluí-las, o certo é um segundo `FAQPage` ou juntar as duas listas na
+  seção visível, nunca só no schema.
+- Os 11 benefícios saem de `helpers/beneficios.js` e alimentam a seção, o resumo
+  da âncora `#beneficios` em `server/utils/paginas.js` (derivado por código, não
+  copiado) e o `/llms-full.txt`. Mesma lógica do FAQ: uma lista só.
 - O FAQ visível e o `FAQPage` do JSON-LD leem o mesmo `helpers/faq.js`. Se algum
   dia divergirem, é penalidade — não duplique a lista.
 - A `og:image` é `/imagens/compartilhar.jpg` (1200×630), montada a partir do
@@ -254,38 +285,128 @@ no PNG normal).
 
 ## Página /bio (cartão de visita digital)
 
-Pedido da Jamilly, com referência visual que ela mandou (cartão digital de uma
-designer de interiores). A estrutura segue essa referência:
+Pedido da Jamilly. **Refeita** sobre uma segunda referência que ela mandou (o
+link-in-bio de uma consultora, foto grande no topo + pilha de botões em degradê).
+Estrutura:
 
 ```
-capa (banner)  -> public/imagens/bio-capa.jpg
-painel escuro  -> retrato circular sobreposto + nome + cargo + CRP
-                  "Toque nos ícones" (orientação, entre riscos)
-                  pílula principal: Agende sua sessão
-                  fileira de 4 ícones quadrados: WhatsApp, Instagram, e-mail, site
-                  pílula secundária: Salvar meu contato
+1. capa    -> fundo creme + <Psi> no topo-esquerda + o recorte SEM FUNDO dela
+              sangrando pela direita; nome/cargo/CRP em marrom sobre o creme
+2. atalhos -> 5 botões: Agendar (WhatsApp), Site, Instagram, E-mail, vCard
+3. números -> 50 min / 100% online / CRP
+4. quem sou eu -> bloco marrom escuro + botão "Minha abordagem" -> /#sobre
+5. dúvidas -> accordion com as 3 primeiras de helpers/faq.js
+6. rodapé  -> "Vamos conversar?" + redes + assinatura Pacifico + CRP
 ```
 
 - `pages/bio.vue`, com `layout: 'default'` (sem Nav e sem Footer: a página **é**
   o cartão, não uma seção do site).
-- **Paleta invertida de propósito**: painel `--cor-marrom-escuro` com texto creme
-  e contornos em `--cor-bege`. A referência é escura com dourado; esse é o
-  equivalente na paleta da Jamilly, e conversa com o rodapé do site.
-- **A capa é peça de marca, não foto.** A referência usa foto do espaço de
-  trabalho, mas o atendimento é 100% online e não há consultório. O banner é
-  gerado (degradê creme -> pêssego + a folhagem de `Folhagem.vue`).
-- O retrato sobe sobre a capa por `margin-top: -54px` na linha `.identidade`;
-  o `padding-top: 62px` em `.nome` devolve o texto para dentro do painel. Mexer
-  num sem mexer no outro desalinha nome e foto.
-- O Instagram vira `<div class="quadrado inerte">` enquanto `negocio.instagramUrl`
-  for `null`. Quando o perfil existir, ele volta a ser `<a>` sozinho.
+- **A capa é composição, não foto.** O recorte com alfa (`jamilly-recorte.png`,
+  feito pelo Gustavo fora do projeto) é o que faz o topo ler como página e não
+  como "uma foto colada". O que ele exige:
+  - o **véu escuro sumiu**: sobre creme o nome é marrom escuro, não precisa de
+    contraste artificial;
+  - o **Ψ voltou como `<Psi>`**, no topo-esquerda, que é onde ele estava na parede
+    da foto original. Sem ele o recorte perde o "isto é psicologia";
+  - o pé do recorte leva `mask-image: linear-gradient(to top, transparent 0%,
+    #000 7%)`. Sem isso ela termina numa **linha reta** sobre o creme, porque não
+    há troca de cor embaixo pra disfarçar o corte.
+- **A capa é toda proporcional, nunca em px.** `.topo` tem `aspect-ratio: 1/0.94`
+  e o recorte tem `width: 88%` / `right: -12%` da largura do cartão. Já quebrou
+  uma vez por estar em px: com `height: 480px` fixo, em tela estreita ela mantinha
+  a largura da tela larga, sangrava pra fora e **o corte caía no meio do cérebro**.
+  Em %, a fração dela que aparece é a mesma em qualquer largura, e o corte da
+  direita cai sempre na manga.
+- **Ψ e nome empilham a partir do topo** (`flex-direction: column`), não ancorados
+  embaixo. Não é só estética: a silhueta é bem mais estreita em cima (a borda
+  esquerda dela sai de ~290px de largura no peito para ~150px na altura das mãos),
+  então texto em cima ganha folga e texto embaixo encosta nela. Com o layout atual
+  a menor folga entre o texto e o corpo dela é ~20px.
+- **O asset é cortado na linha 800** do PNG já aparado, porque abaixo disso a
+  almofada se abre e ocupa a largura inteira. Antes de mexer em qualquer número,
+  medir de novo:
+
+  ```bash
+  python -c "
+  from PIL import Image
+  im = Image.open('public/images/jamilly-recorte.png').convert('RGBA')
+  im = im.crop(im.getchannel('A').getbbox()); w,h = im.size; a = im.getchannel('A').load()
+  for pct in range(0,101,8):
+      y = min(h-1, round(h*pct/100))
+      esq = next((x for x in range(w) if a[x,y] > 24), None)
+      print(pct, y, esq)"
+  ```
+
+  Gerar o `.webp` que a página usa (o PNG é só a fonte):
+
+  ```bash
+  python -c "
+  from PIL import Image
+  im = Image.open('public/images/jamilly-recorte.png').convert('RGBA')
+  im = im.crop(im.getchannel('A').getbbox())
+  im = im.crop((0, 0, im.width, 800))
+  im = im.resize((700, round(im.height*700/im.width)), Image.LANCZOS)
+  im.save('public/images/jamilly-recorte.webp', 'WEBP', quality=86, method=6)"
+  ```
+
+  706KB de PNG viram **42KB de WebP**. O `jamilly-recorte.png` continua em
+  `public/` só como fonte para regerar; **nenhuma página o pede**, então ele é
+  peso morto no deploy e pode sair de lá quando alguém quiser limpar.
+- **Os números da referência não podiam ser copiados.** Lá são de resultado
+  ("+1000 alunas", "96% de aprovação"); o Código de Ética do CFP não permite que
+  psicóloga anuncie resultado, e não havia dado real. Os três que ficaram são
+  verificáveis e saem de `helpers/site.js`. Se pedirem para "colocar números",
+  é essa a conversa.
+- **Degradê dos atalhos**: cada botão é um `linear-gradient(120deg, --tom, --tom2)`
+  e o fim de um encosta no começo do próximo, então a pilha lê como uma rampa só,
+  do bege ao marrom escuro. Os tons vão inline no `:style` a partir do array
+  `atalhos`. A `--tinta` (cor do texto) troca de escura para creme entre o 2º e o
+  3º degrau, que é onde o fundo escurece o bastante: **todos os pares ficam acima
+  de 4.5:1**. Mexer num tom sem recalcular o contraste quebra isso.
+- **Arte de fundo dos atalhos** (`public/imagens/bio/`): cada botão tem um recorte
+  de **objeto** tirado das fotos reais da Jamilly, tonalizado em sépia, sangrando
+  pela direita. Nada de banco de imagem, e nenhum recorte mostra o rosto dela (a
+  referência usa cena/objeto, não retrato):
+
+  | arquivo | origem | região |
+  |---|---|---|
+  | `caderno.jpg` | `imagens/jamilly-sentada.png` | `crop=460:140:250:1045` (mãos no caderno) |
+  | `livros.jpg` | `imagens/jamilly-sentada.png` | `crop=300:100:0:130` (estante) |
+  | `planta.jpg` | `imagens/jamilly-sentada.png` | `crop=248:90:520:230` (folhagem) |
+  | `ripado.jpg` | `imagens/jamilly-sentada.png` | `crop=338:110:430:20` (parede de ripas) |
+  | `psi.jpg` | `images/jamilly-cerebro.jpeg` | `crop=340:130:45:215` (o Ψ da parede) |
+
+  Gerados com **ffmpeg** (o `sharp` está no `node_modules` mas **sem binário
+  nativo compilado** nesta máquina, então `require('sharp')` quebra). Receita:
+
+  ```bash
+  TOM="colorchannelmixer=.393:.769:.189:0:.349:.686:.168:0:.272:.534:.131,colorbalance=rm=0.10:gm=0.01:bm=-0.06,eq=saturation=1.05"
+  ffmpeg -y -i <origem> -vf "crop=<w>:<h>:<x>:<y>,scale=640:-2,$TOM" -q:v 5 <destino>
+  ```
+
+  Todos abaixo de 13KB. A arte entra num `::after` com `z-index: -1` (acima do
+  degradê, abaixo do conteúdo) e **máscara** `linear-gradient(90deg, transparent
+  46%, #000 95%)`: a imagem só começa a aparecer depois que o texto acabou, então
+  o contraste do rótulo continua no tom sólido. Subir a `opacity` do `::after` é
+  seguro; mexer no início da máscara não é.
+- **Sem fonte nova.** A referência é toda em serifada itálica; aqui os títulos de
+  bloco usam Pacifico (`--script`), que já é a voz de display da marca. Não vale
+  importar uma quarta família por causa de uma página.
+- **Enquadramento da capa**: `object-position: 50% 24%` com 520px de altura mostra
+  o Ψ da parede, o rosto e o topo do cérebro. Não existe recorte que mostre o
+  cérebro inteiro **e** deixe o nome fora dele: o bloco de nome fica no pé da foto.
+- O Instagram usa `linkInstagram()`, que enquanto `instagramUrl` for `null` aponta
+  para `/instagram` (página que avisa que o perfil está sendo montado). Nenhum
+  atalho fica morto, e no dia que a URL existir todos passam a apontar pro perfil.
 - **"Salvar meu contato"** baixa `/jamilly-ferreira.vcf`, gerado em
   `server/routes/jamilly-ferreira.vcf.js` a partir de `helpers/site.js`.
   vCard **3.0** de propósito (a 4.0 tem suporte irregular no Android) e linhas
   separadas por CRLF, como o padrão exige.
-- Ícones de `@edusites/icons`: `toque`, `whatsapp`, `agenda`, `instagram`,
-  `envelope-1`, `globo`, `download`. Conferir se o nome existe antes de usar,
-  com `ls node_modules/@edusites/icons/src/icones/ | grep termo`.
+- Ícones de `@edusites/icons`: `whatsapp`, `globo`, `instagram`, `envelope-1`,
+  `download`, `relogio`, `videochamada`, `certificado`, `seta-direita-fina`.
+  Conferir se o nome existe antes de usar, com
+  `ls node_modules/@edusites/icons/src/icones/ | grep termo`.
+- `public/imagens/bio-capa.jpg` ficou **sem uso** (era o banner da versão antiga).
 - Entra no sitemap e no llms.txt via `server/utils/paginas.js`, e no prerender
   via `nuxt.config.ts`. Não fica linkada no Nav: o destino dela é a bio do
   Instagram.

@@ -4,26 +4,16 @@
     <div class="folha folha-2"><Folhagem /></div>
 
     <div class="cabecalho" v-revelar.filhos>
-      <h2>O que esse processo pode <b>contribuir para você</b></h2>
+      <h2>O processo terapêutico pode <b>contribuir para:</b></h2>
       <p>
         A terapia não te entrega respostas prontas. É um espaço pra você se olhar
         com mais honestidade e construir os próprios caminhos.
       </p>
     </div>
 
-    <div class="orbita" v-revelar>
-      <!-- linhas pontilhadas ligando o centro a cada item (só desktop) -->
-      <svg class="conexoes" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
-        <g stroke="#B89172" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round" fill="none">
-          <line x1="500" y1="280" x2="300" y2="150" />
-          <line x1="500" y1="280" x2="700" y2="150" />
-          <line x1="500" y1="280" x2="305" y2="430" />
-          <line x1="500" y1="280" x2="700" y2="425" />
-        </g>
-      </svg>
-
-      <!-- ilustração central: semente brotando -->
-      <div class="ilustracao">
+    <div class="corpo">
+      <!-- ilustração: semente brotando (divisor entre o cabeçalho e a lista) -->
+      <div class="ilustracao" v-revelar>
         <svg viewBox="0 0 220 260" aria-hidden="true">
           <g fill="none" stroke="#A06E45" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <!-- broto -->
@@ -47,28 +37,21 @@
         </svg>
       </div>
 
-      <!-- itens -->
-      <div class="item item-1">
-        <span class="ico"><SvgIcone nome="lampada" cor="var(--cor-branco)" :tamanho="22" /></span>
-        <span>Se entender de verdade</span>
-      </div>
-      <div class="item item-2">
-        <span class="ico"><SvgIcone nome="folha" cor="var(--cor-branco)" :tamanho="22" /></span>
-        <span>Fazer escolhas mais suas</span>
-      </div>
-      <div class="item item-3">
-        <span class="ico"><SvgIcone nome="escudo" cor="var(--cor-branco)" :tamanho="22" /></span>
-        <span>Um espaço seguro pra existir</span>
-      </div>
-      <div class="item item-4">
-        <span class="ico"><SvgIcone nome="lotus" cor="var(--cor-branco)" :tamanho="22" /></span>
-        <span>Reencontrar sentido</span>
-      </div>
+      <ul class="lista" v-revelar.filhos.subtil>
+        <li class="item" v-for="beneficio in beneficios" :key="beneficio">
+          <span class="marca">
+            <SvgIcone nome="folha" cor="var(--cor-marrom)" :tamanho="18" />
+          </span>
+          <span class="rotulo">{{ beneficio }}</span>
+        </li>
+      </ul>
     </div>
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { beneficios } from '~/helpers/beneficios.js'
+</script>
 
 <style lang="sass" scoped>
 section.processo
@@ -110,9 +93,9 @@ section.processo
   flex-direction: column
   align-items: center
   gap: 18px
-  margin-bottom: 40px
+  margin-bottom: 56px
   text-align: center
-  max-width: 640px
+  max-width: 700px
 
 h2
   font-family: var(--light)
@@ -130,31 +113,20 @@ h2
   line-height: 1.6
   color: rgba(70, 56, 48, 0.7)
 
-// ---------- Órbita ----------
-.orbita
+// ---------- Corpo: tudo no mesmo eixo central ----------
+.corpo
   position: relative
   z-index: 1
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 48px
   width: 100%
-  max-width: 1000px
-  aspect-ratio: 1000 / 560
-
-.conexoes
-  position: absolute
-  inset: 0
-  width: 100%
-  height: 100%
-  z-index: 0
-
-  line
-    animation: fluir 2.4s linear infinite
+  max-width: var(--container)
 
 .ilustracao
-  position: absolute
-  left: 50%
-  top: 50%
-  transform: translate(-50%, -50%)
-  width: 27%
-  z-index: 1
+  flex: 0 0 auto
+  width: 200px
 
   svg
     display: block
@@ -189,78 +161,91 @@ h2
     opacity: 1
     transform: scale(1.25)
 
-@keyframes fluir
-  to
-    stroke-dashoffset: -11
-
 @media (prefers-reduced-motion: reduce)
-  .ilustracao svg, .ponto, .conexoes line
+  .ilustracao svg, .ponto
     animation: none
 
-.item
-  position: absolute
-  z-index: 2
+// ---------- Lista de benefícios ----------
+// Flex-wrap em vez de grid: 11 não fecha nenhuma grade, e no flex a última
+// linha incompleta fica centralizada sozinha em vez de deixar buraco no canto.
+.lista
   display: flex
+  flex-wrap: wrap
+  justify-content: center
+  gap: 16px
+  width: 100%
+  max-width: 1300px
+  margin: 0
+  padding: 0
+  list-style: none
+
+.item
+  display: flex
+  flex: 0 1 calc(33.333% - 11px)
   align-items: center
-  gap: 12px
-  padding: 16px 24px
-  border-radius: 22px 22px 22px 4px
-  background-color: var(--cor-marrom-botao)
-  box-shadow: 0 12px 30px rgba(70, 56, 48, 0.14)
+  gap: 14px
+  padding: 15px 20px
+  border-radius: 18px 18px 18px 4px
+  background-color: var(--cor-branco)
+  border: 1px solid rgba(122, 78, 45, 0.1)
+  box-shadow: 0 6px 18px rgba(70, 56, 48, 0.06)
+  transition: all 0.3s
 
-  span
-    font-family: var(--light)
-    font-size: 1.05rem
-    color: var(--cor-branco)
-    white-space: nowrap
+  &:hover
+    border-color: rgba(122, 78, 45, 0.28)
+    box-shadow: 0 12px 26px rgba(70, 56, 48, 0.12)
 
-  .ico
-    display: flex
-    align-items: center
-    justify-content: center
+.marca
+  display: flex
+  flex: 0 0 auto
+  align-items: center
+  justify-content: center
+  width: 36px
+  height: 36px
+  border-radius: 50%
+  background-color: var(--cor-fundo)
 
-.item-1
-  top: 16%
-  left: 2%
-.item-2
-  top: 16%
-  right: 2%
-.item-3
-  bottom: 16%
-  left: 5%
-.item-4
-  bottom: 4%
-  right: 3%
+.rotulo
+  font-family: var(--light)
+  font-size: 1.05rem
+  line-height: 1.4
+  color: var(--cor-marrom-escuro)
+  // rótulo de 2 linhas quebra ao meio em vez de largar uma palavra sozinha
+  text-wrap: balance
 
-// ---------- Mobile: empilha ----------
-@media screen and (max-width: 860px)
-  .orbita
-    aspect-ratio: auto
-    max-width: 420px
-    display: flex
-    flex-direction: column
-    align-items: center
-    gap: 18px
+// ---------- Responsivo ----------
+@media screen and (max-width: 1100px)
+  .item
+    flex-basis: calc(50% - 8px)
 
-  .conexoes
-    display: none
+@media screen and (max-width: 700px)
+  .corpo
+    gap: 36px
 
   .ilustracao
-    position: static
-    transform: none
-    width: 180px
-    margin-bottom: 8px
+    width: 160px
+
+  .lista
+    max-width: 460px
 
   .item
-    position: static
-    width: 100%
-    justify-content: center
+    flex-basis: 100%
 
 @media screen and (max-width: 600px)
   section.processo
     padding: 30px 22px 90px
 
-  .item span
-    white-space: normal
-    text-align: center
+  .cabecalho
+    margin-bottom: 40px
+
+  .item
+    padding: 13px 16px
+    gap: 12px
+
+  .marca
+    width: 32px
+    height: 32px
+
+  .rotulo
+    font-size: 1rem
 </style>

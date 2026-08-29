@@ -1,11 +1,13 @@
 // Páginas públicas do site — usadas pelo sitemap.xml e pelo llms.txt.
 // Ao criar uma página nova em pages/, acrescente aqui.
+import { beneficios } from '../../helpers/beneficios.js'
+
 export const paginas = [
   {
     caminho: '/',
     titulo: 'Psicóloga Online — Jamilly Ferreira',
     resumo:
-      'Página principal: quem é a Jamilly, para quem é a terapia, o que o processo pode abrir, como funcionam as sessões, perguntas frequentes e contato.',
+      'Página principal: quem é a Jamilly, para quem é a terapia, o que o processo pode contribuir, como funcionam as sessões, perguntas frequentes e contato.',
     prioridade: '1.0',
     frequencia: 'monthly'
   },
@@ -44,9 +46,13 @@ export const secoesHome = [
   },
   {
     id: 'beneficios',
-    titulo: 'O que esse processo pode contribuir para você',
-    resumo:
-      'Se entender de verdade, fazer escolhas mais suas, ter um espaço seguro pra existir e reencontrar sentido.'
+    titulo: 'O processo terapêutico pode contribuir para',
+    // Derivado de helpers/beneficios.js para o resumo nunca divergir da lista
+    // que a visitante lê na seção. Só a primeira palavra fica maiúscula.
+    resumo: `${beneficios[0]}, ${beneficios
+      .slice(1)
+      .map((b) => b[0].toLowerCase() + b.slice(1))
+      .join(', ')}.`
   },
   { id: 'sobre', titulo: 'Sobre mim', resumo: 'Quem é Jamilly Ferreira e como ela conduz o processo.' },
   {
@@ -55,5 +61,11 @@ export const secoesHome = [
     resumo: 'Sessões de 50 minutos, atendimento online por videochamada e processo personalizado.'
   },
   { id: 'perguntas', titulo: 'Perguntas frequentes', resumo: 'Dúvidas comuns sobre terapia online, sigilo e agendamento.' },
+  {
+    id: 'pensando',
+    titulo: 'Talvez você esteja pensando…',
+    resumo:
+      'Respostas às hesitações mais comuns antes da primeira sessão: não saber por onde começar, medo de ser julgada, dúvida se a terapia é pra você e dificuldade de falar sobre o que sente.'
+  },
   { id: 'contato', titulo: 'Contato', resumo: 'WhatsApp e Instagram para agendar a primeira sessão.' }
 ]

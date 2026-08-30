@@ -34,7 +34,7 @@
         <component
           v-for="atalho in atalhos"
           :key="atalho.titulo"
-          :is="atalho.interno ? 'NuxtLink' : 'a'"
+          :is="atalho.interno ? NuxtLink : 'a'"
           class="atalho"
           :style="{
             '--tom': atalho.tom,
@@ -173,6 +173,12 @@ import { faqs } from '~/helpers/faq.js'
 definePageMeta({
   layout: 'default'
 })
+
+// Precisa ser o componente, não a string 'NuxtLink': em <component :is>, uma
+// string é tratada como nome de elemento nativo, e os dois atalhos internos
+// saíam no HTML como <NuxtLink> literal, que o navegador ignora. Resultado:
+// "Conhecer meu trabalho" e "Instagram" não clicavam.
+const NuxtLink = resolveComponent('NuxtLink')
 
 const linkEmail = `mailto:${negocio.email}`
 const ano = new Date().getFullYear()

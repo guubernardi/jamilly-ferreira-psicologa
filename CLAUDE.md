@@ -180,9 +180,8 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
   Contato),
   Seção "Vamos conversar / Dê o primeiro passo hoje" (`SectionContato.vue` — CTA final,
   fundo creme: kicker + título + parágrafo + 2 cards: **WhatsApp** (`.acao.destaque`,
-  primário marrom, `wa.me` placeholder) e **Instagram** (`.acao.info`, NÃO é link —
-  só mostra `@jamillyferreirapsicologa`; a Jamilly ainda vai criar o Insta
-  profissional). Resolve os CTAs: todos os "Agendar" agora apontam p/ `#contato`.
+  primário marrom) e **Instagram** (`.acao.info`, aponta para o perfil real).
+  Resolve os CTAs: todos os "Agendar" agora apontam p/ `#contato`.
 - Ordem na home (`index.vue`): Hero → Onda → Situacao → Onda → Processo → Onda → Sobre
   → Onda → ComoFunciona → Onda → Faq → Onda → **Pensando** → Contato → Onda(→marrom)
   → Footer (global). **Pensando e Contato não têm onda entre si**: as duas são creme
@@ -192,14 +191,10 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
   Faq=`perguntas`, Pensando=`pensando`. Nav/footer linkam: Início→`#inicio`, Sobre→`#sobre`,
   Processo→`#processo`, Perguntas→`#perguntas`. `section[id]` tem
   `scroll-margin-top: 100px` (normalize.sass) p/ não esconder sob a nav fixa.
-  Obs.: os CTAs "Agendar" ainda apontam p/ `#agendar` (âncora inexistente — ligar
-  ao destino real de agendamento depois).
 - **Status geral**: home completa (Hero→Contato→Footer) + SEO técnico completo.
-  Instagram real = handle `@jamillyferreirapsicologa` SEM link (perfil profissional
-  ainda não existe; quando existir, preencher `negocio.instagramUrl` e ele entra
-  sozinho no `sameAs` do JSON-LD).
-  **Dados reais já preenchidos** em `helpers/site.js`: WhatsApp, telefone, e-mail
-  e CRP (06/237828). O único campo ainda vazio é `instagramUrl`. Pendências de
+  **Todos os dados reais já preenchidos** em `helpers/site.js`: WhatsApp, telefone,
+  e-mail, CRP (06/237828) e Instagram (`@jamillyferreira.psico`, perfil no ar,
+  já no `sameAs` do JSON-LD). Pendências de
   mídia: trocar a foto da ComoFunciona (hoje usa `jamilly-sentada`) e otimizar
   os PNGs pesados (`jamilly.png` 818KB, `jamilly-sentada.png` 1MB → WebP).
   A `sobre-mim-jamilly.jpeg` veio em 367x905 e ocupa ~372px de largura: no 1x
@@ -392,12 +387,15 @@ Estrutura:
 - **Sem fonte nova.** A referência é toda em serifada itálica; aqui os títulos de
   bloco usam Pacifico (`--script`), que já é a voz de display da marca. Não vale
   importar uma quarta família por causa de uma página.
-- **Enquadramento da capa**: `object-position: 50% 24%` com 520px de altura mostra
-  o Ψ da parede, o rosto e o topo do cérebro. Não existe recorte que mostre o
-  cérebro inteiro **e** deixe o nome fora dele: o bloco de nome fica no pé da foto.
-- O Instagram usa `linkInstagram()`, que enquanto `instagramUrl` for `null` aponta
-  para `/instagram` (página que avisa que o perfil está sendo montado). Nenhum
-  atalho fica morto, e no dia que a URL existir todos passam a apontar pro perfil.
+- **Os atalhos internos precisam do componente, não da string.** Em
+  `<component :is>`, `'NuxtLink'` como string vira nome de elemento nativo e sai no
+  HTML como `<NuxtLink>` literal, que o navegador ignora: dois atalhos ficaram sem
+  clicar. O certo é `resolveComponent('NuxtLink')`, guardado numa const.
+- O Instagram usa `linkInstagram()`. Com `instagramUrl` preenchido ele aponta pro
+  perfil real com `target=_blank`; se um dia voltar a ser `null`, cai sozinho em
+  `/instagram` (página que avisa que o perfil está sendo montado). Essa página
+  hoje está **órfã**: nada linka pra ela, e ela nunca esteve no sitemap nem no
+  llms.txt. O texto dela ficou desatualizado, então ou some ou vira redirect.
 - **"Salvar meu contato"** baixa `/jamilly-ferreira.vcf`, gerado em
   `server/routes/jamilly-ferreira.vcf.js` a partir de `helpers/site.js`.
   vCard **3.0** de propósito (a 4.0 tem suporte irregular no Android) e linhas

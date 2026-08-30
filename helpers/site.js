@@ -2,7 +2,7 @@
 // Tudo que aparece em metatags, JSON-LD, sitemap, robots.txt e llms.txt sai daqui,
 // então mudar um dado (WhatsApp, CRP, e-mail) é mudar em UM lugar só.
 //
-// Único dado ainda ausente: instagramUrl (o perfil profissional não existe).
+// Todos os dados do negócio estão preenchidos, inclusive o Instagram.
 
 export const SITE_URL = 'https://jamillyferreirapsicologa.com.br'
 
@@ -17,10 +17,8 @@ export const negocio = {
   whatsapp: '5511976461399', // DDI+DDD+número, só dígitos (formato do wa.me)
   telefoneExibicao: '(11) 97646-1399',
   email: 'jamillyferreira.psi@gmail.com',
-  instagramHandle: '@jamillyferreirapsicologa',
-  // A Jamilly ainda vai criar o perfil profissional; enquanto for null o handle
-  // aparece como texto, sem link, e fica fora do sameAs do JSON-LD.
-  instagramUrl: null,
+  instagramHandle: '@jamillyferreira.psico',
+  instagramUrl: 'https://www.instagram.com/jamillyferreira.psico',
 
   // Localização — atendimento é 100% online (Brasil inteiro), mas a base física
   // em São Bernardo do Campo sustenta as buscas locais ("psicóloga em SBC").

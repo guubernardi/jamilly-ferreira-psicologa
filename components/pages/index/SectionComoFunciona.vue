@@ -54,8 +54,8 @@
         <div class="moldura">
           <img
             class="foto"
-            src="/imagens/jamilly-sentada.png"
-            alt="Jamilly Ferreira de Medeiros durante atendimento psicológico online"
+            src="/images/foto-jamilly.jpeg"
+            alt="Jamilly Ferreira de Medeiros sentada no sofá, com um caderno no colo, durante atendimento online"
             width="768"
             height="1364"
             loading="lazy"

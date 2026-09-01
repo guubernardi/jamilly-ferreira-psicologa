@@ -63,9 +63,10 @@ assets/css/
   index.sass                # @use de todos os css base
 plugins/edusites-icons.js   # registra <SvgIcone> global
 public/images/              # logo.png (logo completa), jamilly-header.png,
-                            # foto-jamilly.jpeg (retrato do /bio e do vCard),
+                            # foto-jamilly.jpeg (ComoFunciona e foto do vCard),
                             # sobre-mim-jamilly.jpeg (Sobre mim)
-public/imagens/             # jamilly.png (hero), jamilly-sentada.png (ComoFunciona),
+public/imagens/             # jamilly.png (hero), jamilly-sentada.png (não exibida:
+                            # é a fonte dos recortes de public/imagens/bio/),
                             # ornamento-sobre.svg (galho divisor do "SOBRE MIM"), logo-marca.png
 stores/                     # Pinia
 ```
@@ -159,7 +160,8 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
   **lista numerada de 3 itens** (ícone em círculo + título + descrição + número
   fantasma) + CTA; foto em moldura **branca** sobre fundo creme (inverso da Sobre) +
   acento de contorno fino + selo glass "Abordagem · Humanista"; empilha no mobile).
-  **Placeholder:** usa `jamilly-sentada.png` — TROCAR por foto de atendimento.
+  Foto: `images/foto-jamilly.jpeg` (a mesma do vCard), 97KB contra o 1MB da
+  `jamilly-sentada.png` que ficava aqui antes.
   Seção "Perguntas frequentes" (`SectionFaq.vue` — **accordion interativo**: `ref(0)`
   controla qual item está aberto, 1 aberto por vez; animação de altura via grid
   `0fr→1fr`; chevron SVG inline que rotaciona; itens creme sobre seção branca; 6
@@ -195,8 +197,8 @@ Global, sem import. Cor preta por padrão; customiza `cor` e `tamanho`.
   **Todos os dados reais já preenchidos** em `helpers/site.js`: WhatsApp, telefone,
   e-mail, CRP (06/237828) e Instagram (`@jamillyferreira.psico`, perfil no ar,
   já no `sameAs` do JSON-LD). Pendências de
-  mídia: trocar a foto da ComoFunciona (hoje usa `jamilly-sentada`) e otimizar
-  os PNGs pesados (`jamilly.png` 818KB, `jamilly-sentada.png` 1MB → WebP).
+  mídia: otimizar `jamilly.png` (818KB, hero) para WebP. A `jamilly-sentada.png`
+  (1MB) não é mais exibida, só serve de fonte para os recortes do /bio.
   A `sobre-mim-jamilly.jpeg` veio em 367x905 e ocupa ~372px de largura: no 1x
   passa, no 2x fica levemente macia. Pedir o original em resolução maior.
   Depoimentos: **evitar** (restrição do Código de Ética do CFP p/ depoimento de

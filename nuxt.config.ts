@@ -16,6 +16,16 @@ export default defineNuxtConfig({
     }
   },
 
+  hooks: {
+    // cada um dos 1088 ícones do @edusites/icons vira um arquivo js separado e o nuxt
+    // colocava todos no prefetch de toda página: ~1100 requisições por visita na vercel.
+    // sem o prefetch, o navegador só baixa os ícones que a página realmente usa
+    'build:manifest': (manifest) => {
+      for (const chave in manifest) {
+        if (chave.includes('@edusites/icons')) manifest[chave].prefetch = false
+      }
+    }
+  },
   experimental: {
     payloadExtraction: false,
     viewTransition: true
